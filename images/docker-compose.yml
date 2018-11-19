@@ -1,0 +1,28 @@
+version: '3.2'
+
+services:
+  # Php-fpm container
+  shelter_backend:
+    build: backend/etc
+    volumes:
+      - type: bind
+        source: ./../src
+        target: /www/vhosts/shelter
+    ports:
+      - '8080:8000'
+  # Database container
+  shelter_db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shelter
+      MYSQL_USER: developer
+      MYSQL_PASSWORD: developer
+    volumes:
+      - type: bind
+        source: ./../src/storage/mysql
+        target: /var/lib/mysql
+    ports: 
+      - '3307:3306'
