@@ -19,7 +19,7 @@
         @endforeach
     </ul>
 </div>
-<form method="POST" action="{{ route('newThread') }}">
+<form method="POST" action="{{ route('threads.create', $board->name_short) }}">
 @csrf  
     <input type="text" name="title" />
     <input type="text" name="text" />

@@ -30,10 +30,10 @@ Route::group(['prefix' => '{board}'], function () {
     Route::group(['as' => 'threads.'], function () {
         Route::get('/res/{thread}/', 'PostController@showThread')->name('show');
 
-        Route::post('/', 'BoardController@storeThread')->name('create');
+        Route::post('/', 'PostController@storeThread')->name('create');
     });
 
     Route::group(['as' => 'posts.'], function () {
-        Route::post('/res/{thread}', 'PostController@storePost')->name('newPost');
+        Route::post('/res/{thread}', 'PostController@storePost')->name('create');
     });
 });

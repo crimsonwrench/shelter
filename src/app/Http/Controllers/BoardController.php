@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Board;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class BoardController extends Controller
 {

@@ -13,7 +13,7 @@
     <p>{{ $post->text }}</p>
         @endforeach
 </div>
-<form method="POST" action="{{ Request::route('newPost') }}">
+<form method="POST" action="{{ route('posts.create', [$board->name_short, $thread->num]) }}">
     @csrf
     <input type="text" name="text" />
     <input type="submit" />

@@ -36,7 +36,7 @@ class PostController extends Controller
         $board->save();
         $board->posts()->save($thread);
 
-        return redirect()->route('board', $boardName);
+        return redirect()->route('threads.show', [$board->name_short, $thread->num]);
     }
 
     public function storePost(Request $request, $boardName, $threadNum)
@@ -57,6 +57,6 @@ class PostController extends Controller
         $board->save();
         $board->posts()->save($post);
 
-        return redirect()->route('showThread', [$boardName, $threadNum]);
+        return redirect()->route('threads.show', [$boardName, $threadNum]);
     }
 }
