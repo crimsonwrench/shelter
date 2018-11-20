@@ -4,4 +4,6 @@ FROM php:7.2.12-fpm-alpine
 # ADD php-fpm.conf /etc/php/php-fpm.conf
 # ADD php-fpm.d/www.conf /etc/php/php-fpm.d/www.conf
 
-EXPOSE 9000 9001
+RUN apk add make
+RUN docker-php-ext-install pdo pdo_mysql
+EXPOSE 9000 9001 8080
