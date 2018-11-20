@@ -4,26 +4,28 @@ services:
   # Php-fpm container
   shelter_backend:
     build: images/backend
-    image: shelter
+    image: shelter_backend
     volumes:
       - type: bind
         source: ./src
-        target: /www/vhosts/shelter
+        target: /var/www/shelter
     ports:
-      - '8080:8000'
+      - '8081:9000'
 
   # Nginx container
-  #shelter_nginx:
-  #  build: images/nginx
-  #  ports:
-  #    - '8081:80'
-  #  volumes:
-  #    - type: bind
-  #      source: ./src
-  #      target: /www/vhosts/shelter
-  #    - type: bind
-  #      source: ./storage/files
-  #      target: /www/vhosts/files
+  shelter_nginx:
+    build: images/nginx
+    image: shelter_nginx
+    ports:
+      - '8080:80'
+    volumes:
+      - type: bind
+        source: ./src
+        target: /var/www/shelter
+      - type: bind
+        source: ./storage/files
+        target: /var/www/files
+
   # Database container
   shelter_db:
     image: mysql

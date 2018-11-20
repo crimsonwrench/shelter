@@ -6,4 +6,4 @@ FROM php:7.2.12-fpm-alpine
 
 RUN apk add make
 RUN docker-php-ext-install pdo pdo_mysql
-EXPOSE 9000 9001 8080
+EXPOSE 9000 9001
