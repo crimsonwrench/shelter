@@ -10,44 +10,43 @@ class PostController extends Controller
 {
     public function showThread($boardName, $threadNum)
     {
-        $board = Board::where('name_short', $boardName)->first();
+        $board = Board::where('name_short', $boardName)->firstOrFail();
 
-        $thread = $board->posts()->where('num', $threadNum)->first();
+        $thread = $board->posts()->where('num', $threadNum)->where('is_op', 1)->firstOrFail();
 
-        $posts = $thread->getPosts();
+        $posts = $thread->getAllPosts();
 
         return view('board.thread.thread', ['board' => $board, 'thread' => $thread, 'posts' => $posts]);
     }
 
     public function storeThread(Request $request, $boardName)
     {
-        $thread = new Post();
+        $newThread = new Post();
 
-        $board = Board::where('name_short', $boardName)->first();
+        $board = Board::where('name_short', $boardName)->firstOrFail();
 
         $board->last_post_num += 1;
 
-        $thread->title = $request->title;
-        $thread->text = $request->text;
-        $thread->num = $board->last_post_num;
-        $thread->poster_ip = $request->ip();
-        $thread->is_op = 1;
+        $newThread->title = $request->title;
+        $newThread->text = $request->text;
+        $newThread->num = $board->last_post_num;
+        $newThread->poster_ip = $request->ip();
+        $newThread->is_op = 1;
 
         $board->save();
-        $board->posts()->save($thread);
+        $board->posts()->save($newThread);
 
-        return redirect()->route('threads.show', [$board->name_short, $thread->num]);
+        return redirect()->route('threads.show', [$board->name_short, $newThread->num]);
     }
 
     public function storePost(Request $request, $boardName, $threadNum)
     {
-        $post = new Post();
+        $newPost = new Post();
 
-        $board = Board::where('name_short', $boardName)->first();
-
-        $thread = $board->posts()->where('num', $threadNum)->first();
-
+        $board = Board::where('name_short', $boardName)->firstOrFail();
         $board->last_post_num += 1;
+
+        $thread = $board->posts()->where('num', $threadNum)->where('is_op', 1)->firstOrFail();
 
         $post->belongs_to = $thread->id;
         $post->text = $request->text;
@@ -56,6 +55,10 @@ class PostController extends Controller
 
         $board->save();
         $board->posts()->save($post);
+
+        // Updating thread's date
+        $thread->updated_at = $post->created_at;
+        $thread->save();
 
         return redirect()->route('threads.show', [$boardName, $threadNum]);
     }

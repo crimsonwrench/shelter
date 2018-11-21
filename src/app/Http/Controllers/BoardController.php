@@ -10,16 +10,16 @@ class BoardController extends Controller
 {
     public function showBoard($boardname)
     {
-        $board = Board::where('name_short', $boardname)->first();
+        $board = Board::where('name_short', $boardname)->firstOrFail();
 
-        $threads = $board->threads()->get();
+        $threads = $board->getThreads();
 
         return view('board.board', ['threads' => $threads, 'board' => $board]);
     }
 
     public function index()
     {
-        $boards = DB::table('boards')->get();
+        $boards = Board::all();
 
         return view('board.index', ['boards' => $boards]);
     }

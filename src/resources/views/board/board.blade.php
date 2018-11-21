@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ "/" . $board->name_short . "/ - " . $board->name }}</title>
-    <link href="css/oneboard.css" rel="stylesheet">
+    <link href="/css/oneboard.css" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
@@ -32,11 +32,11 @@
                         <div class="text">{{ $thread->text }}</div>
                     </div>
                 </div>
-        @foreach ($thread->lastPosts() as $post)
+        @foreach ($thread->getLastPosts() as $post)
 
                 <div class="post">
                     <div class="infoblock">
-                        <p>{{ "Anonymous №" . $post->num . "  " . $post->created_at . " IP: " . $post->poster_ip }}</p>
+                        <p>{{ "Anonymous №" . $post->num . "  " . $post->updated_at . " IP: " . $post->poster_ip }}</p>
                     </div>
                     <div class="stuff">
                         <div class="file"> </div>
@@ -70,5 +70,5 @@
     </main>
     <footer></footer>
 </div>
-</body><script src="js/oneboard.js"></script>
+</body><script src="/js/oneboard.js"></script>
 </html>

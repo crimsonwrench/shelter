@@ -12,7 +12,7 @@ class Post extends Model
         return $this->belongsTo('App\Board');
     }
 
-    public function getPosts()
+    public function getAllPosts()
     {
         return DB::table('posts')
             ->where('belongs_to', $this->id)
@@ -21,13 +21,13 @@ class Post extends Model
             ->get();
     }
 
-    public function lastPosts()
+    public function getLastPosts($quantity = 3)
     {
         return DB::table('posts')
             ->where('belongs_to', $this->id)
             ->orderByDesc('num')
             ->orderByDesc('created_at')
-            ->limit(3)
+            ->limit($quantity)
             ->get()
             ->reverse();
     }

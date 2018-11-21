@@ -13,8 +13,12 @@ class Board extends Model
         return $this->hasMany('App\Post');
     }
 
-    public function threads()
+    public function getThreads()
     {
-        return $this->posts()->where('is_op', 1);
+        return $this->posts()
+            ->where('is_op', 1)
+            ->orderByDesc('is_pinned')
+            ->orderByDesc('updated_at')
+            ->get();
     }
 }
