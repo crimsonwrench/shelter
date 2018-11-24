@@ -18,3 +18,15 @@
     <input type="text" name="text" />
     <input type="submit" />
 </form>
+@if ($errors->any())
+            
+<div class="thread">
+    <ul>
+@foreach ($errors->all() as $error)
+        
+        <li>{{ $error }}</li>
+@endforeach
+    
+    </ul>
+</div>
+@endif

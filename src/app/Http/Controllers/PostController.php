@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Board;
 use App\Post;
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePost;
+use App\Http\Requests\StoreThread;
 
 class PostController extends Controller
 {
@@ -19,8 +21,9 @@ class PostController extends Controller
         return view('board.thread.thread', ['board' => $board, 'thread' => $thread, 'posts' => $posts]);
     }
 
-    public function storeThread(Request $request, $boardName)
+    public function storeThread(StoreThread $request, $boardName)
     {
+
         $newThread = new Post();
 
         $board = Board::where('name_short', $boardName)->firstOrFail();
@@ -39,7 +42,7 @@ class PostController extends Controller
         return redirect()->route('threads.show', [$board->name_short, $newThread->num]);
     }
 
-    public function storePost(Request $request, $boardName, $threadNum)
+    public function storePost(StorePost $request, $boardName, $threadNum)
     {
         $newPost = new Post();
 

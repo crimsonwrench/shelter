@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ "/" . $board->name_short . "/ - " . $board->name }}</title>
-    <link href="/css/oneboard.css" rel="stylesheet">
+    <link href="{{ asset('css/oneboard.css') }}" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
@@ -47,6 +47,19 @@
 
             </div>
         @endforeach
+
+        @if ($errors->any())
+            
+            <div class="thread">
+                <ul>
+            @foreach ($errors->all() as $error)
+                    
+                    <li>{{ $error }}</li>
+            @endforeach
+                
+                </ul>
+            </div>
+        @endif
         
             <form method="POST" action="{{ route('threads.create', $board->name_short) }}">
                 @csrf
@@ -70,5 +83,6 @@
     </main>
     <footer></footer>
 </div>
-</body><script src="/js/oneboard.js"></script>
+</body>
+<script src="{{ asset('js/oneboard.js') }}"></script>
 </html>
