@@ -16,8 +16,9 @@ class Board extends Model
     public function getThreads()
     {
         return $this->posts()
+            ->with('user')
             ->where('is_op', 1)
-            ->orderByDesc('is_pinned')
+            ->orderByDesc('is_sticky')
             ->orderByDesc('updated_at')
             ->get();
     }
