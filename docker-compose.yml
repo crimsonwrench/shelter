@@ -9,8 +9,6 @@ services:
       - type: bind
         source: ./src
         target: /var/www/shelter
-    ports:
-      - '8081:9000'
 
   # Nginx container
   shelter_nginx:
