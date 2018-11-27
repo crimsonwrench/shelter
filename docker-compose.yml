@@ -34,9 +34,5 @@ services:
       MYSQL_DATABASE: shelter
       MYSQL_USER: developer
       MYSQL_PASSWORD: developer
-    volumes:
-      - type: bind
-        source: ./storage/mysql
-        target: /var/lib/mysql
     ports: 
       - '3307:3306'
