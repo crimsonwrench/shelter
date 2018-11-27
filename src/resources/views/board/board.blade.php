@@ -3,16 +3,20 @@
 @section('content')
 <div class="s">
             <div class="info">
-                <div class="metrics"></div>
-                <div class="random"></div>
+                <div class="metrics">
+                    <p>Здесь скоро появится статистика</p>
+                </div>
+                <div class="random">
+                    <p>Здесь скоро появится рандомный тред</p>
+                </div>
             </div>
             <div class="board">
-@foreach($threads as $thread)
+@forelse($threads as $thread)
 
                 <div class="thread">
                     <div class="d">
                         <div class="infoblock">
-                            <p>{{ $thread->title . "     №" . $thread->num . "  " . $thread->created_at . " IP: " . $thread->user->ip }}</p>
+                            <p>{{ $thread->title . "     №" . $thread->num . "  " . $thread->created_at }}</p>
                             <a href="{{ route('threads.show', [$board->name_short, $thread->num]) }}">[В тред]</a>
                         </div>
                         <div class="stuff">
@@ -23,7 +27,7 @@
 @foreach ($thread->getLastPosts() as $post)
                 <div class="post">
                     <div class="infoblock">
-                        <p>{{ "Anonymous №" . $post->num . "  " . $post->updated_at . " IP: " . $post->user->ip }}</p>
+                        <p>{{ "Anonymous №" . $post->num . "  " . $post->created_at }}</p>
                     </div>
                     <div class="stuff">
                         <div class="file"> </div>
@@ -32,7 +36,10 @@
                 </div>
 @endforeach
                 </div>
-@endforeach
+@empty
+                <p>В данной доске нет ни одного треда!</p>
+@endforelse
+                <h4>Форма для постинга</h4>
                 <form method="POST" action="{{ route('threads.create', $board->name_short) }}">
                     @csrf
 
