@@ -6,15 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>
-@if (Route::is('threads.show'))
-        {{ "/" . $board->name_short . "/ - " . $thread->title }}
-@elseif (Route::is('boards.show'))
-        {{ "/" . $board->name_short . "/ - " . $board->name }}
-@else
-        {{ config('app.name') }}
-@endif
-    </title>
+    <title>{{ config('app.name') }}</title>
     <link href="{{ asset('css/oneboard.css') }}" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
 </head>
@@ -24,17 +16,19 @@
         <a href="{{ route('boards.list') }}" rel="alternate">Главная</a>
         <a href="{{ route('boards.list') }}" rel="alternate">Каталог</a>
         <a href="{{ route('boards.list') }}" rel="alternate">Контакты</a>
-        <a href="{{ route('login') }}" rel="alternate">Вход</a>
+        <a class="dropdown-item" href="{{ route('logout') }}"
+        onclick="event.preventDefault();
+                      document.getElementById('logout-form').submit();">
+        Выход</a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
+
     </nav>
-    <header>
-@if (Route::is('boards.show') ?? Route::is('threads.show'))
-        <h1>{{ $board->name }}</h1>
-@endif
-    </header>
+    <header></header>
 
     <main> 
         @yield('content')
-            
+
     </main>
 
     <footer></footer>

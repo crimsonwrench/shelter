@@ -47,6 +47,13 @@
                     <input type="text" name="text" />
                     <input type="submit" />
                 </form>
+@if ($errors->any())
+                <ul>
+@foreach ($errors->all() as $error)            
+                    <li>{{ $error }}</li>
+@endforeach            
+                </ul>
+@endif
             </div>
             <div class="menu-block">
                 <a href="#" class="menu-btn">
