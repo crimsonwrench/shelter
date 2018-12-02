@@ -13,20 +13,13 @@ use App\Http\Middleware\CheckVisitor;
 |
  */
 
-Route::group(['middleware' => [CheckVisitor::class]], function () {
+Route::group(['middleware' => ['visitor']], function () {
 
 
-    Route::group(['prefix' => 'admin'], function () {
-
-        //Admin login routes
-        Route::group(['namespace' => 'Auth'], function () {
-            Route::get('login', 'AdminLoginController@showLoginForm')->name('login');
-            Route::post('login', 'AdminLoginController@login');
-            Route::post('logout', 'AdminLoginController@logout')->name('logout');
-        });
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
         //Admin control panel routes
-        Route::group(['namespace' => 'Admin', 'as' => 'admin.', 'middleware' => ['auth:admin']], function () {
+        Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::get('panel', 'AdminController@index')->name('index');
         });
     });

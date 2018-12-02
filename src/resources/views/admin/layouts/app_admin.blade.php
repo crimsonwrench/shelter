@@ -16,13 +16,6 @@
         <a href="{{ route('boards.list') }}" rel="alternate">Главная</a>
         <a href="{{ route('boards.list') }}" rel="alternate">Каталог</a>
         <a href="{{ route('boards.list') }}" rel="alternate">Контакты</a>
-        <a class="dropdown-item" href="{{ route('logout') }}"
-        onclick="event.preventDefault();
-                      document.getElementById('logout-form').submit();">
-        Выход</a>
-
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
-
     </nav>
     <header></header>
 

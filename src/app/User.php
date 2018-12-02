@@ -9,7 +9,12 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $fillable = ['ip'];
+    
+    protected $fillable = ['name', 'email','remember_token'];
+
+    protected $hidden = ['remember_token'];
+
+    public $timestamps = false;
 
     public function posts()
     {

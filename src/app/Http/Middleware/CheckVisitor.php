@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CheckVisitor
 {
@@ -21,11 +22,19 @@ class CheckVisitor
             return $next($request);
         }
 
-        $user = User::where('ip', $request->ip())->first();
+        $user_token = $request->session()->get('user_token');
+
+        $user = User::where('remember_token', $user_token)->first();
 
         if (!$user) {
-            $user = User::create(['ip' => $request->ip()]);
+            $user = User::where('id', DB::table('sessions')->where('ip_address', $request->ip())->value('user_id'))->first();
+
+            if (!$user) {
+                $user = User::create(['remember_token' => str_random(100)]);
+            }
         }
+
+        $request->session()->put('user_token', $user->remember_token);
 
         Auth::login($user);
 

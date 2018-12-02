@@ -24,7 +24,6 @@
         <a href="{{ route('boards.list') }}" rel="alternate">Главная</a>
         <a href="{{ route('boards.list') }}" rel="alternate">Каталог</a>
         <a href="{{ route('boards.list') }}" rel="alternate">Контакты</a>
-        <a href="{{ route('login') }}" rel="alternate">Вход</a>
     </nav>
     <header>
 @if (Route::is('boards.show') ?? Route::is('threads.show'))
