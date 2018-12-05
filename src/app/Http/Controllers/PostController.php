@@ -7,62 +7,41 @@ use App\Board;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
+use App\Services\PostService;
 use App\Http\Requests\StorePost;
 use App\Http\Requests\StoreThread;
 
 class PostController extends Controller
 {
-    public function showThread($boardName, $threadNum)
+    protected $post_service;
+ 
+    public function __construct(PostService $post_service)
     {
-        $board = Board::where('name_short', $boardName)->firstOrFail();
-
-        $thread = $board->posts()->where('num', $threadNum)->where('is_op', 1)->firstOrFail();
-
-        $posts = $thread->getAllPosts();
-
-        return view('board.thread.thread', ['board' => $board, 'thread' => $thread, 'posts' => $posts]);
+        $this->post_service = $post_service;
     }
-
-    public function storeThread(StoreThread $request, $boardName)
+ 
+    public function showThread($board_name, $thread_num)
     {
-        $board = Board::where('name_short', $boardName)->firstOrFail();
-        $board->last_post_num += 1;
-        $board->save();
-
-        $user = Auth::user();
-
-        $newThread = $board->posts()->create([
-            'num' => $board->last_post_num,
-            'user_id' => $user->id,
-            'is_op' => 1,
-            'title' => $request->title,
-            'text' => $request->text,
-        ]);
-
-        return redirect()->route('threads.show', [$board->name_short, $newThread->num]);
+        $board = Board::where('name_short', $board_name)->firstOrFail();
+        $thread = $board->posts()
+            ->with('user', 'children')
+            ->where('num', $thread_num)
+            ->where('status', '!=', 'archived')
+            ->where('is_op', 1)
+            ->firstOrFail();
+ 
+        return view('board.thread.thread', ['board' => $board, 'thread' => $thread]);
     }
-
-    public function storePost(StorePost $request, $boardName, $threadNum)
+ 
+    public function storeThread(StoreThread $request, $board_name)
     {
-
-        $board = Board::where('name_short', $boardName)->firstOrFail();
-        $board->last_post_num += 1;
-        $board->save();
-
-        $thread = $board->posts()->where('num', $threadNum)->where('is_op', 1)->firstOrFail();
-
-        $user = Auth::user();
-
-        $newPost = $board->posts()->create([
-            'num' => $board->last_post_num,
-            'user_id' => $user->id,
-            'belongs_to' => $thread->id,
-            'text' => $request->text,
-        ]);
-        // Updating thread's date
-        $thread->updated_at = $newPost->created_at;
-        $thread->save();
-
-        return redirect()->route('threads.show', [$boardName, $threadNum]);
+        $new_thread = $this->post_service->storeThread($request, $board_name);
+        return redirect()->route('threads.show', [$board_name, $new_thread->num]);
+    }
+ 
+    public function storePost(StorePost $request, $board_name, $thread_num)
+    {
+        $this->post_service->storePost($request, $board_name, $thread_num);
+        return redirect()->route('threads.show', [$board_name, $thread_num]);
     }
 }

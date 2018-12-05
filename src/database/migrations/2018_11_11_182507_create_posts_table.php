@@ -31,7 +31,7 @@ class CreatePostsTable extends Migration
             $table->timestamps();
             $table->boolean('is_sage')->default('0');
             $table->boolean('is_sticky')->default('0');
-            $table->enum('status', ['active', 'closed', 'sinking', 'deleted', 'banned'])->default('active');
+            $table->enum('status', ['active', 'closed', 'sinking', 'archived',])->default('active');
         });
     }
 

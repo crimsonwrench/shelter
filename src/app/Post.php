@@ -19,23 +19,13 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function getAllPosts()
+    public function parent()
     {
-        return Post::with('user')
-            ->where('belongs_to', $this->id)
-            ->orderBy('num')
-            ->orderBy('created_at')
-            ->get();
+        return $this->belongsTo('App\Post', 'belongs_to');
     }
 
-    public function getLastPosts($quantity = 3)
+    public function children()
     {
-        return Post::with('user')
-            ->where('belongs_to', $this->id)
-            ->orderByDesc('num')
-            ->orderByDesc('created_at')
-            ->limit($quantity)
-            ->get()
-            ->reverse();
+        return $this->hasMany('App\Post', 'belongs_to');
     }
 }

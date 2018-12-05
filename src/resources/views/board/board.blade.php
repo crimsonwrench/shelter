@@ -24,7 +24,7 @@
                             <div class="text">{{ $thread->text }}</div>
                         </div>
                     </div>
-@foreach ($thread->getLastPosts() as $post)
+@foreach ($thread->children as $post)
                 <div class="post">
                     <div class="infoblock">
                         <p>{{ "Anonymous №" . $post->num . "  " . $post->created_at }}</p>
