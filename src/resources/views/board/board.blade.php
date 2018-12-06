@@ -20,7 +20,11 @@
                             <a href="{{ route('threads.show', [$board->name_short, $thread->num]) }}">[В тред]</a>
                         </div>
                         <div class="stuff">
-                            <div class="file"> </div>
+                            <div class="file">
+@foreach($thread->files as $file)
+                            <img src="{{ asset("uploads/img/" . $file->name) }}" style="max-width: 100px; height: auto;"/>
+@endforeach
+                            </div>
                             <div class="text">{{ $thread->text }}</div>
                         </div>
                     </div>
@@ -30,7 +34,11 @@
                         <p>{{ "Anonymous №" . $post->num . "  " . $post->created_at }}</p>
                     </div>
                     <div class="stuff">
-                        <div class="file"> </div>
+                        <div class="file">
+@foreach($post->files as $file)
+                            <img src="{{ asset("uploads/img/" . $file->name) }}" style="max-width: 100px; height: auto;"/>
+@endforeach 
+                            </div>
                         <div class="text">{{ $post->text }}</div>
                     </div>
                 </div>
@@ -40,11 +48,16 @@
                 <p>В данной доске нет ни одного треда!</p>
 @endforelse
                 <h4>Форма для постинга</h4>
-                <form method="POST" action="{{ route('threads.create', $board->name_short) }}">
+                <form method="POST" action="{{ route('threads.create', $board->name_short) }}" enctype="multipart/form-data">
                     @csrf
 
                     <input type="text" name="title" />
                     <input type="text" name="text" />
+                    <div class="upload">
+                        <input type="file" name="filename[]" class="form-control">
+                        <input type="file" name="filename[]" class="form-control">
+                        <input type="file" name="filename[]" class="form-control">
+                    </div>
                     <input type="submit" />
                 </form>
 @if ($errors->any())

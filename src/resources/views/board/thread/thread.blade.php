@@ -18,7 +18,11 @@
                             <p>{{ $thread->title . "     №" . $thread->num . "  " . $thread->created_at }}</p>
                         </div>
                         <div class="stuff">
-                            <div class="file"></div>
+                            <div class="file">
+@foreach($thread->files as $file)
+                                <img src="{{ asset("uploads/img/" . $file->name) }}" style="max-width: 100px; height: auto;"/>
+@endforeach 
+                            </div>
                             <div class="text">{{ $thread->text }}</div>
                         </div>
                     </div>
@@ -28,7 +32,11 @@
                     <p>{{ "Anonymous №" . $post->num . "  " . $post->created_at }}</p>
                 </div>
                 <div class="stuff">
-                    <div class="file"> </div>
+                    <div class="file">
+@foreach($post->files as $file)
+                        <img src="{{ asset("uploads/img/" . $file->name) }}" style="max-width: 100px; height: auto;"/>
+@endforeach 
+                    </div>
                     <div class="text">{{ $post->text }}</div>
                 </div>
             </div>
@@ -44,10 +52,15 @@
         </ul>
 @endif
                 <h4>Форма для постинга</h4>
-                <form method="POST" action="{{ route('posts.create', [$board->name_short, $thread->num]) }}">
+                <form method="POST" action="{{ route('posts.create', [$board->name_short, $thread->num]) }}" enctype="multipart/form-data">
                     @csrf
 
                     <input type="text" name="text" />
+                    <div class="upload">
+                        <input type="file" name="filename[]" class="form-control">
+                        <input type="file" name="filename[]" class="form-control">
+                        <input type="file" name="filename[]" class="form-control">
+                    </div>
                     <input type="submit" />
                 </form>
             </div>

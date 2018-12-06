@@ -9,7 +9,7 @@ class BoardService
     public function loadThreads(Board $board, $quantity = 3)
     {
         return $board->posts()
-            ->with(['user', 'children' => function ($query) {
+            ->with(['files', 'user', 'children.files', 'children' => function ($query) {
                 $query->orderByDesc('num')
                     ->orderByDesc('created_at');
             }])
