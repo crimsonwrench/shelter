@@ -24,7 +24,7 @@ class PostController extends Controller
     {
         $board = Board::where('name_short', $board_name)->firstOrFail();
         $thread = $board->posts()
-            ->with('user', 'files', 'children.files', 'children')
+            ->with('user', 'children.user', 'children', 'files', 'children.files')
             ->where('num', $thread_num)
             ->where('status', '!=', 'archived')
             ->where('is_op', 1)
