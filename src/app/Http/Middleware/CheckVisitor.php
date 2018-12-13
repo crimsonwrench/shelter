@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\User;
+use App\Role;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +32,7 @@ class CheckVisitor
 
             if (!$user) {
                 $user = User::create(['remember_token' => str_random(100)]);
+                $user->roles()->attach(Role::where('role_name', 'user')->first());
             }
         }
 

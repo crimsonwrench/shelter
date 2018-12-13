@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFilePostTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateFilePostTable extends Migration
      */
     public function up()
     {
-        Schema::create('file_post', function (Blueprint $table) {
-            $table->unsignedInteger('file_id');
-            $table->unsignedInteger('post_id');
+        Schema::create('roles', function (Blueprint $table) {
+            $table->increments('id');
+            $table->text('role_name');
         });
     }
 
@@ -26,6 +26,6 @@ class CreateFilePostTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_post');
+        Schema::dropIfExists('roles');
     }
 }
