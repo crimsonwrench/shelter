@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Storage;
 
 class PostService
 {
-
     public function storeThread(StoreThread $request, $board_name)
     {
         $board = Board::where('name_short', $board_name)->firstOrFail();
@@ -65,6 +64,15 @@ class PostService
         }
 
         return $new_thread;
+    }
+
+    public function deleteThread($board_name, $thread_num) 
+    {
+        $board = Board::where('name_short', $board_name)->firstOrFail();
+        $thread = $board->posts()->where('num', $thread_num)->where('is_op', 1)->firstOrFail();
+
+        $thread->status = 'archived';
+        $thread->save();
     }
 
     public function storePost(StorePost $request, $board_name, $thread_num)

@@ -38,10 +38,17 @@ class PostController extends Controller
         $new_thread = $this->post_service->storeThread($request, $board_name);
         return redirect()->route('threads.show', [$board_name, $new_thread->num]);
     }
+
+    public function deleteThread($board_name, $thread_num)
+    {
+        $this->post_service->deleteThread($board_name, $thread_num);
+        return redirect()->back();
+    }
  
     public function storePost(StorePost $request, $board_name, $thread_num)
     {
         $this->post_service->storePost($request, $board_name, $thread_num);
         return redirect()->route('threads.show', [$board_name, $thread_num]);
     }
+
 }

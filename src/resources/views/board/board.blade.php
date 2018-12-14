@@ -16,8 +16,11 @@
                 <div class="thread">
                     <div class="d">
                         <div class="infoblock">
-                            <p>{{ $thread->title . "     №" . $thread->num . "  " . $thread->created_at }}</p>
+                            <p>{{ $thread->title . "     №" . $thread->num . "  " . $thread->created_at  }}</p>
                             <a href="{{ route('threads.show', [$board->name_short, $thread->num]) }}">[В тред]</a>
+@if (Auth::user()->hasRole('admin'))
+                            <a href="{{ route('threads.delete', [$board->name_short, $thread->num]) }}">Удалить</a>
+@endif
                         </div>
                         <div class="stuff">
                             <div class="file">

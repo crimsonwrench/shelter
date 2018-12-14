@@ -15,7 +15,6 @@ use App\Http\Middleware\CheckVisitor;
 
 Route::group(['middleware' => ['visitor']], function () {
 
-
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
         //Admin control panel routes
@@ -47,6 +46,8 @@ Route::group(['middleware' => ['visitor']], function () {
         Route::group(['as' => 'threads.'], function () {
             Route::get('/res/{thread}/', 'PostController@showThread')->name('show');
             Route::post('/', 'PostController@storeThread')->name('create');
+            Route::get('/res/{thread}/delete', 'PostController@deleteThread')->name('delete')
+                ->middleware('role:admin');
         });
 
         //Post routes
