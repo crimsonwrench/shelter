@@ -9,7 +9,7 @@ class BoardService
     public function loadThreads(Board $board, $quantity = 3)
     {
         return $board->posts()
-            ->with(['files', 'user', 'children.files', 'children' => function ($query) {
+            ->with(['files', 'user', 'activeChildren.files', 'activeChildren' => function ($query) {
                 $query->orderByDesc('num')
                     ->orderByDesc('created_at');
             }])
@@ -18,7 +18,7 @@ class BoardService
             ->orderByDesc('updated_at')
             ->get()
             ->map(function ($threads) use ($quantity) {
-                $threads->children = $threads->children->take($quantity)->reverse();
+                $threads->activeChildren = $threads->activeChildren->take($quantity)->reverse();
                 return $threads;
             });
     }

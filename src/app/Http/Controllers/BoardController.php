@@ -4,24 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Board;
 use App\Services\BoardService;
+use App\Services\AccessService;
 use Illuminate\Support\Facades\App;
 
 class BoardController extends Controller
 {
-    protected $board_service;
+    protected $boardService;
+    protected $accessService;
 
-    public function __construct(BoardService $board_service)
+    public function __construct(BoardService $boardService, AccessService $accessService)
     {
-        $this->board_service = $board_service;
+        $this->boardService = $boardService;
+        $this->accessService = $accessService;
     }
 
-    public function showBoard($board_name)
+    public function showBoard($boardName)
     {
-        $board = Board::where('name_short', $board_name)->firstOrFail();
+        $board = Board::where('name_short', $boardName)->firstOrFail();
 
-        $threads = $this->board_service->loadThreads($board);
+        $threads = $this->boardService->loadThreads($board);
 
-        return view('board.board', ['threads' => $threads, 'board' => $board]);
+        return view('board.board', ['threads' => $threads, 'board' => $board, 'roles' => $this->accessService->checkRoles()]);
     }
 
     public function index()

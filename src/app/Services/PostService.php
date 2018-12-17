@@ -50,13 +50,13 @@ class PostService
         return $new_thread;
     }
 
-    public function deleteThread($board_name, $thread_num) 
+    public function delete($board_name, $num) 
     {
         $board = Board::where('name_short', $board_name)->firstOrFail();
-        $thread = $board->posts()->where('num', $thread_num)->where('is_op', 1)->firstOrFail();
+        $post = $board->posts()->where('num', $num)->firstOrFail();
 
-        $thread->status = 'archived';
-        $thread->save();
+        $post->status = 'archived';
+        $post->save();
     }
 
     public function storePost(StorePost $request, $board_name, $thread_num)
@@ -83,7 +83,7 @@ class PostService
 
         // Bumping thread if it has less than 500 posts;
 
-        if ($thread->children()->get()->count() < 500 && $thread->status == 'active') {
+        if ($thread->activeChildren()->get()->count() < 500 && $thread->status == 'active') {
             $thread->updated_at = $new_post->created_at;
         } else {
             $thread->status = 'sinking';
@@ -106,7 +106,9 @@ class PostService
                     'size' => $file->getClientSize(),
                 ]);
 
-                $thumbnail = Image::make($file)->fit(150);
+                $thumbnail = Image::make($file)->resize(null, 150, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
 
                 Storage::disk('public_uploads')->put("img/thumbnails/". $file->getClientOriginalName(), (string) $thumbnail->encode());
                 Storage::disk('public_uploads')->putFileAs('img', $file, $file->getClientOriginalName());

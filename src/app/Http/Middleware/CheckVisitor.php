@@ -23,9 +23,9 @@ class CheckVisitor
             return $next($request);
         }
 
-        $user_token = $request->session()->get('user_token');
+        $userToken = $request->session()->get('user_token');
 
-        $user = User::where('remember_token', $user_token)->first();
+        $user = User::where('remember_token', $userToken)->first();
 
         if (!$user) {
             $user = User::where('id', DB::table('sessions')->where('ip_address', $request->ip())->value('user_id'))->first();
@@ -36,7 +36,7 @@ class CheckVisitor
             }
         }
 
-        $request->session()->put('user_token', $user->remember_token);
+        $request->session()->put('user_token', $user->rememberToken);
 
         Auth::login($user);
 

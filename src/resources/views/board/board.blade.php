@@ -18,7 +18,7 @@
                         <div class="infoblock">
                             <p>{{ $thread->title . "     №" . $thread->num . "  " . $thread->created_at  }}</p>
                             <a href="{{ route('threads.show', [$board->name_short, $thread->num]) }}">[В тред]</a>
-@if (Auth::user()->hasRole('admin'))
+@if ($roles->contains('admin'))
                             <a href="{{ route('threads.delete', [$board->name_short, $thread->num]) }}">Удалить</a>
 @endif
                         </div>
@@ -31,10 +31,13 @@
                             <div class="text">{{ $thread->text }}</div>
                         </div>
                     </div>
-@foreach ($thread->children as $post)
+@foreach ($thread->activeChildren as $post)
                 <div class="post">
                     <div class="infoblock">
                         <p>{{ "Anonymous №" . $post->num . "  " . $post->created_at }}</p>
+@if ($roles->contains('admin'))
+                        <a href="{{ route('posts.delete', [$board->name_short, $post->num]) }}">Удалить</a>
+@endif
                     </div>
                     <div class="stuff">
                         <div class="file">

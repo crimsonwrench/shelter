@@ -28,6 +28,11 @@ class Post extends Model
         return $this->hasMany('App\Post', 'belongs_to');
     }
 
+    public function activeChildren()
+    {
+        return $this->children()->where('status', '!=', 'archived');
+    }
+
     public function files()
     {
         return $this->belongsToMany('App\File');
