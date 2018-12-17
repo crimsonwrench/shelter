@@ -10,6 +10,7 @@ use App\Services\BoardService;
 use App\Http\Requests\StorePost;
 use App\Http\Requests\StoreThread;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class PostService
 {
@@ -36,24 +37,7 @@ class PostService
         ]);
 
         if ($request->hasFile('filename')) {
-            
-            foreach ($request->file('filename') as $file) {
-                
-                $query_file = File::where('hash', sha1_file($file))->first();
-
-                if(!$query_file) {
-                    $new_file = $new_thread->files()->create([
-                        'hash' => sha1_file($file),
-                        'name' => $file->getClientOriginalName(),
-                        'extension' => $file->getClientOriginalExtension(),
-                        'type' => $file->getClientMimeType(),
-                        'size' => $file->getClientSize(),
-                    ]);
-                    Storage::disk('public_uploads')->putFileAs('img', $file, $file->getClientOriginalName());
-                } else {
-                    $new_thread->files()->attach($query_file);
-                }
-            }
+            $this->storeFile($request, $new_thread);            
         }
 
         // Archiving the last sinking thread if there are more than 10 active threads
@@ -94,23 +78,7 @@ class PostService
 
 
         if ($request->hasFile('filename')) {
-            
-            foreach ($request->file('filename') as $file) {
-                $query_file = File::where('hash', sha1_file($file))->first();
-
-                if(!$query_file) {
-                    $new_file = $new_post->files()->create([
-                        'hash' => sha1_file($file),
-                        'name' => $file->getClientOriginalName(),
-                        'extension' => $file->getClientOriginalExtension(),
-                        'type' => $file->getClientMimeType(),
-                        'size' => $file->getClientSize(),
-                    ]);
-                    Storage::disk('public_uploads')->putFileAs('img', $file, $file->getClientOriginalName());
-                } else {
-                    $new_post->files()->attach($query_file);
-                }
-            }
+            $this->storeFile($request, $new_post);
         }
 
         // Bumping thread if it has less than 500 posts;
@@ -122,5 +90,30 @@ class PostService
         }
 
         $thread->save();
+    }
+
+    public function storeFile($request, Post $post) 
+    {
+        foreach ($request->file('filename') as $file) {
+            $query_file = File::where('hash', sha1_file($file))->first();
+
+            if(!$query_file) {
+                $new_file = $post->files()->create([
+                    'hash' => sha1_file($file),
+                    'name' => $file->getClientOriginalName(),
+                    'extension' => $file->getClientOriginalExtension(),
+                    'type' => $file->getClientMimeType(),
+                    'size' => $file->getClientSize(),
+                ]);
+
+                $thumbnail = Image::make($file)->fit(150);
+
+                Storage::disk('public_uploads')->put("img/thumbnails/". $file->getClientOriginalName(), (string) $thumbnail->encode());
+                Storage::disk('public_uploads')->putFileAs('img', $file, $file->getClientOriginalName());
+
+            } else {
+                $post->files()->attach($query_file);
+            }
+        }
     }
 }

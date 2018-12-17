@@ -20,7 +20,7 @@
                         <div class="stuff">
                             <div class="file">
 @foreach($thread->files as $file)
-                                <img src="{{ asset("uploads/img/" . $file->name) }}" style="max-width: 100px; height: auto;"/>
+                                <img src="{{ asset("uploads/img/thumbnails/" . $file->name) }}"/>
 @endforeach 
                             </div>
                             <div class="text">{{ $thread->text }}</div>
@@ -34,7 +34,7 @@
                 <div class="stuff">
                     <div class="file">
 @foreach($post->files as $file)
-                        <img src="{{ asset("uploads/img/" . $file->name) }}" style="max-width: 100px; height: auto;"/>
+                        <img src="{{ asset("uploads/img/thumbnails/" . $file->name) }}"/>
 @endforeach 
                     </div>
                     <div class="text">{{ $post->text }}</div>
