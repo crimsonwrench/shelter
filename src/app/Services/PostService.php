@@ -6,7 +6,6 @@ use Auth;
 use App\File;
 use App\Post;
 use App\Board;
-use App\Services\BoardService;
 use App\Http\Requests\StorePost;
 use App\Http\Requests\StoreThread;
 use Illuminate\Support\Facades\Storage;
@@ -37,12 +36,12 @@ class PostService
         ]);
 
         if ($request->hasFile('filename')) {
-            $this->storeFile($request, $new_thread);            
+            $this->storeFile($request, $board_name, $new_thread->num, $new_thread);            
         }
 
-        // Archiving the last sinking thread if there are more than 10 active threads
+        // Archiving the last sinking thread if there are more too many active threads (default: 10)
 
-        if($threads->count() > 10 && $threads->last()->status == 'sinking') {
+        if($threads->count() > env('SHELTER_THREADS_ON_PAGE', 10) && $threads->last()->status == 'sinking') {
             $threads->last()->status = 'archived';
             $threads->last()->save();
         }
@@ -78,12 +77,12 @@ class PostService
 
 
         if ($request->hasFile('filename')) {
-            $this->storeFile($request, $new_post);
+            $this->storeFile($request, $board_name, $thread_num, $new_post);
         }
 
-        // Bumping thread if it has less than 500 posts;
+        // Bumping thread unless it reaches post limit (default: 500)
 
-        if ($thread->activeChildren()->get()->count() < 500 && $thread->status == 'active') {
+        if ($thread->activeChildren()->get()->count() < env('SHELTER_BUMP_LIMIT', 500) && $thread->status == 'active') {
             $thread->updated_at = $new_post->created_at;
         } else {
             $thread->status = 'sinking';
@@ -92,13 +91,14 @@ class PostService
         $thread->save();
     }
 
-    public function storeFile($request, Post $post) 
+    public function storeFile($request, $board_name, $thread_num, Post $post) 
     {
         foreach ($request->file('filename') as $file) {
             $query_file = File::where('hash', sha1_file($file))->first();
 
             if(!$query_file) {
-                $new_file = $post->files()->create([
+
+                $db_file_entry = $post->files()->create([
                     'hash' => sha1_file($file),
                     'name' => $file->getClientOriginalName(),
                     'extension' => $file->getClientOriginalExtension(),
@@ -106,12 +106,15 @@ class PostService
                     'size' => $file->getClientSize(),
                 ]);
 
-                $thumbnail = Image::make($file)->resize(null, 150, function ($constraint) {
+                $thumbnail = Image::make($file)->resize(null, env('SHELTER_THUMBNAIL_SIZE_PX', 80), function ($constraint) {
                     $constraint->aspectRatio();
                 });
 
-                Storage::disk('public_uploads')->put("img/thumbnails/". $file->getClientOriginalName(), (string) $thumbnail->encode());
-                Storage::disk('public_uploads')->putFileAs('img', $file, $file->getClientOriginalName());
+
+                Storage::disk('public')->put('res/' . $board_name . '/' . $thread_num .'/thumbnails/'. $file->getClientOriginalName(), 
+                    (string) $thumbnail->encode());
+                Storage::disk('public')->putFileAs('res/' . $board_name . '/' . $thread_num . '/', $file, 
+                    $file->getClientOriginalName());
 
             } else {
                 $post->files()->attach($query_file);
