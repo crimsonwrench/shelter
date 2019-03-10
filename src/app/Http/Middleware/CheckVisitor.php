@@ -23,22 +23,14 @@ class CheckVisitor
             return $next($request);
         }
 
-        $userToken = $request->session()->get('user_token');
-
-        $user = User::where('remember_token', $userToken)->first();
+        $user = User::where('id', DB::table('sessions')->where('ip_address', $request->ip())->value('user_id'))->first();
 
         if (!$user) {
-            $user = User::where('id', DB::table('sessions')->where('ip_address', $request->ip())->value('user_id'))->first();
-
-            if (!$user) {
-                $user = User::create(['remember_token' => str_random(100)]);
-                $user->roles()->attach(Role::where('role_name', 'user')->first());
-            }
+            $user = User::create();
+            $user->roles()->attach(Role::where('role_name', 'user')->first());
         }
 
-        $request->session()->put('user_token', $user->rememberToken);
-
-        Auth::login($user);
+        Auth::login($user, true);
 
         return $next($request);
     }
