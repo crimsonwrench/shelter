@@ -111,9 +111,9 @@ class PostService
                 });
 
 
-                Storage::disk('public')->put('res/' . $board_name . '/' . $thread_num .'/thumbnails/'. $file->getClientOriginalName(), 
+                Storage::disk('public')->put($board_name . '/' . $thread_num .'/thumbnails/'. $file->getClientOriginalName(), 
                     (string) $thumbnail->encode());
-                Storage::disk('public')->putFileAs('res/' . $board_name . '/' . $thread_num . '/', $file, 
+                Storage::disk('public')->putFileAs($board_name . '/' . $thread_num . '/', $file, 
                     $file->getClientOriginalName());
 
             } else {
