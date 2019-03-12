@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Board;
 use App\Services\BoardService;
 use App\Services\AccessService;
-use Illuminate\Support\Facades\App;
 
 class BoardController extends Controller
 {

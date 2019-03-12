@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Board;
-use App\Post;
-use App\User;
-use Illuminate\Http\Request;
 use App\Services\PostService;
 use App\Services\AccessService;
 use App\Http\Requests\StorePost;
