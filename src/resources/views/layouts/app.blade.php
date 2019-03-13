@@ -28,8 +28,9 @@
 @endif
 </header>
 <div class="wrap"> 
-    @yield('content')            
+    @yield('content') 
 </div>
 <footer></footer>
 </body>
+<script src="{{ asset('js/app.js') }}"></script>
 </html>
