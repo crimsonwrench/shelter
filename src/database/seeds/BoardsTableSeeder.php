@@ -28,5 +28,17 @@ class BoardsTableSeeder extends Seeder
             'name_short' => 'gd',
             'name' => 'Gamedev',
         ]);
+        DB::table('boards')->insert([
+            'name_short' => 'mu',
+            'name' => 'Музыка',
+        ]);
+        DB::table('boards')->insert([
+            'name_short' => 'sp',
+            'name' => 'Спорт',
+        ]);
+        DB::table('boards')->insert([
+            'name_short' => 'un',
+            'name' => 'Образование',
+        ]);
     }
 }

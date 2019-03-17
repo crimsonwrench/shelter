@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Middleware\CheckVisitor;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,14 +43,14 @@ Route::group(['middleware' => ['visitor']], function () {
         //Thread routes
         Route::group(['as' => 'threads.'], function () {
             Route::get('/res/{thread}/', 'PostController@showThread')->name('show');
-            Route::post('/', 'PostController@storeThread')->name('create');
+            Route::post('/', 'PostController@storeThread')->middleware('throttle:2,1')->name('create');
             Route::get('/res/{thread}/delthread', 'PostController@delete')->name('delete')
                 ->middleware('role:admin');
         });
 
         //Post routes
         Route::group(['as' => 'posts.'], function () {
-            Route::post('/res/{thread}', 'PostController@storePost')->name('create');
+            Route::post('/res/{thread}', 'PostController@storePost')->middleware('throttle:2,1')->name('create');
             Route::get('/res/{thread}/delpost', 'PostController@delete')->name('delete')
             ->middleware('role:admin');
         });
