@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 
 Route::group(['namespace' => 'Api'], function () {
 
+    Route::get('/boards', 'BoardController@index');
+
     Route::group(['prefix' => '/board/{boardName}'], function () {
 
         Route::get('/', 'BoardController@show')->name('board.show');

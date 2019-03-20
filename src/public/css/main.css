@@ -146,15 +146,21 @@ input[type="submit"],
 input[type="file"]{
     display: none;
 }
-.list > ul li a{
+#board-container > ul {
+    list-style-type: none;
+}
+#board-container > ul li a{
     text-decoration: none;
     color: #e2e6dd;
     transition: all 0.3s ease;
     font-size: 26px;
 }
-.list > ul{
-    list-style-type: none;
-}
-.list  a:hover{
+#board-container a:hover{
     color: #408989;
+}
+#board-container {
+    padding: 40px 10px 10px 10px;
+    min-width: max-content;
+    height: 500px;
+    width: 80%;
 }
