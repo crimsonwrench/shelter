@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 Route::group(['namespace' => 'Api'], function () {
 
-    Route::get('/boards', 'BoardController@index');
+    Route::get('/boards', 'BoardController@index')->name('boards');
 
     Route::group(['prefix' => '/board/{boardName}'], function () {
 
@@ -23,17 +23,17 @@ Route::group(['namespace' => 'Api'], function () {
 
         //Thread routes
         Route::group(['as' => 'threads.', 'prefix' => '/thread'], function () {
-            Route::get('{threadNum}', 'PostController@showThread')->name('show');
-            Route::post('/create', 'PostController@storeThread')->name('create');
-            Route::get('/delete', 'PostController@delete')->name('delete')
+            Route::get('{num}', 'PostController@showThread')->name('show');
+            Route::post('/', 'PostController@storeThread')->name('create');
+            Route::delete('{num}', 'PostController@delete')->name('delete')
                 ->middleware('role:admin');
         });
 
         //Post routes
         Route::group(['as' => 'posts.', 'prefix' => '/post'], function () {
-            Route::get('{postNum}', 'PostController@showPost')->name('show');
-            Route::post('/create', 'PostController@storePost')->name('create');
-            Route::get('/delete', 'PostController@delete')->name('delete')
+            Route::get('{num}', 'PostController@showPost')->name('show');
+            Route::post('/', 'PostController@storePost')->name('create');
+            Route::delete('{num}', 'PostController@delete')->name('delete')
             ->middleware('role:admin');
         });
     });
