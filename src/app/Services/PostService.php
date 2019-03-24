@@ -80,10 +80,11 @@ class PostService
             $this->storeFile($request, $board_name, $thread_num, $new_post);
         }
 
-        // Bumping thread unless it reaches post limit (default: 500)
+        // Bumping thread until it reaches post limit (default: 500)
 
         if ($thread->activeChildren()->get()->count() < env('SHELTER_BUMP_LIMIT', 500) && $thread->status == 'active') {
-            $thread->updated_at = $new_post->created_at;
+            if (!$new_post->is_sage)
+                $thread->updated_at = $new_post->created_at;
         } else {
             $thread->status = 'sinking';
         }
