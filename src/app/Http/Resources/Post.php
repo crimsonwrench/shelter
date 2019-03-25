@@ -18,7 +18,6 @@ class Post extends Resource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'board_id' => $this->board_id,
             'num' => $this->num,
             'belongs_to' => $this->belongs_to,

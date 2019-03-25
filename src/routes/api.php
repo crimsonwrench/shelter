@@ -19,7 +19,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::group(['prefix' => '/board/{boardName}'], function () {
 
-        Route::get('/', 'BoardController@show')->name('board.show');
+        Route::get('/', 'BoardController@threads')->name('threads');
 
         //Thread routes
         Route::group(['as' => 'threads.', 'prefix' => '/thread'], function () {

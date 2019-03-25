@@ -14,6 +14,11 @@ class Board extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'name_short' => $this->name_short,
+            'last_post_num' => $this->last_post_num,
+        ];
     }
 }

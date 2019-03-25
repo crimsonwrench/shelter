@@ -13,4 +13,4 @@
 
 Route::get('/', function() {
     return view('board.index');
-});
+})->where('any', '.*');
