@@ -1,8 +1,15 @@
-import Boards from './components/Boards';
+import Home from './views/Home';
+import Board from './views/Board';
 
 export const routes = [
     {
         path: '/',
-        component: Boards,
+        name: 'home',
+        component: Home,
+    },
+    {
+        path: '/:name/',
+        name: 'board',
+        component: Board,
     }
 ];

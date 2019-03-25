@@ -16,7 +16,7 @@
 </head>
 <body>
     <div id="app">
-            <boards></boards>
+        <app></app>
     </div>
 <footer></footer>
 </body>
