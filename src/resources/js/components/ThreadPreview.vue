@@ -5,6 +5,7 @@
         <div v-for="post in thread.posts" :key="post.num">
             <Post :post="post"/>
         </div>
+        <router-link :to="{name: 'thread', params: {num: thread.num}}">Peek inside</router-link>
     </div>
 </template>
 
