@@ -1,36 +1,25 @@
 <template>
-    <div>
-        <BoardsList v-bind:boards="boards" />
-    </div>
+<div id="board-container">
+    <ul>
+        <li v-for="board in allBoards" :key="board.id">
+            <router-link :to="{name: 'board', params: {name: board.name_short}}" :href="'/'+board.name_short">{{board.name}}</router-link>
+        </li>
+    </ul>
+</div>   
 </template>
 
 <script>
-import BoardsList from '../components/BoardsList';
-import axios from 'axios';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
 
     name: 'Home',
-    components: {
-        BoardsList,
+    methods: {
+        ...mapActions(['fetchBoards'])
     },
-
-    data() {
-        return {
-            boards: [],
-        }
-    },
-
+    computed: mapGetters(['allBoards']),
     created() {
         this.fetchBoards();
     },
-
-    methods: {
-        fetchBoards() {
-            axios.get('/api/boards')
-                .then(res => this.boards = res.data.data)
-                .catch(err => console.log(err));
-        },
-    }
 }
 </script>
