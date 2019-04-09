@@ -14,15 +14,15 @@ class BoardsTableSeeder extends Seeder
     {
         DB::table('boards')->insert([
             'name_short' => 'b',
-            'name' => 'Бред',
+            'name' => 'Random',
         ]);
         DB::table('boards')->insert([
             'name_short' => 'pr',
-            'name' => 'Программирование',
+            'name' => 'Programming',
         ]);
         DB::table('boards')->insert([
-            'name_short' => 'po',
-            'name' => 'Политика',
+            'name_short' => 'pol',
+            'name' => 'Politics',
         ]);
         DB::table('boards')->insert([
             'name_short' => 'gd',
@@ -30,15 +30,15 @@ class BoardsTableSeeder extends Seeder
         ]);
         DB::table('boards')->insert([
             'name_short' => 'mu',
-            'name' => 'Музыка',
+            'name' => 'Music',
         ]);
         DB::table('boards')->insert([
             'name_short' => 'sp',
-            'name' => 'Спорт',
+            'name' => 'Sports',
         ]);
         DB::table('boards')->insert([
-            'name_short' => 'un',
-            'name' => 'Образование',
+            'name_short' => 'vg',
+            'name' => 'Videogames',
         ]);
     }
 }

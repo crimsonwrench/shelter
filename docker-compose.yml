@@ -28,6 +28,7 @@ services:
     image: mysql
     restart: always
     environment:
+      command: --default-authentication-plugin=mysql_native_password
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: shelter
       MYSQL_USER: developer
