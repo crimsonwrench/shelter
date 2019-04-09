@@ -4,18 +4,15 @@ namespace App\Services;
 
 use Auth;
 use App\File;
-use App\Post;
 use App\Board;
 use App\Http\Requests\StorePost;
 use App\Http\Requests\StoreThread;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 
 class PostService
 {
-    public function storeThread(StoreThread $request, $board_name)
+    public function storeThread(StoreThread $request, $boardName)
     {
-        $board = Board::where('name_short', $board_name)->firstOrFail();
+        $board = Board::where('name_short', $boardName)->firstOrFail();
         $board->last_post_num += 1;
         $board->save();
 
@@ -27,7 +24,7 @@ class PostService
 
         $user = Auth::user();
 
-        $new_thread = $board->posts()->create([
+        $newThread = $board->posts()->create([
             'num' => $board->last_post_num,
             'user_id' => $user->id,
             'is_op' => 1,
@@ -36,7 +33,10 @@ class PostService
         ]);
 
         if ($request->hasFile('filename')) {
-            $this->storeFile($request, $board_name, $new_thread->num, $new_thread);            
+            foreach ($request->file('filename') as $file) {
+                $queryFile = File::where('hash', sha1_file($file))->firstOrFail();
+                $newThread->files()->attach($queryFile);
+            }
         }
 
         // Archiving the last sinking thread if there are more too many active threads (default: 10)
@@ -46,29 +46,29 @@ class PostService
             $threads->last()->save();
         }
 
-        return $new_thread;
+        return $newThread;
     }
 
-    public function delete($board_name, $num) 
+    public function delete($boardName, $postNum) 
     {
-        $board = Board::where('name_short', $board_name)->firstOrFail();
-        $post = $board->posts()->where('num', $num)->firstOrFail();
+        $board = Board::where('name_short', $boardName)->firstOrFail();
+        $post = $board->posts()->where('num', $postNum)->firstOrFail();
 
         $post->status = 'archived';
         $post->save();
     }
 
-    public function storePost(StorePost $request, $board_name, $thread_num)
+    public function storePost(StorePost $request, $boardName, $threadNum)
     {
-        $board = Board::where('name_short', $board_name)->firstOrFail();
+        $board = Board::where('name_short', $boardName)->firstOrFail();
         $board->last_post_num += 1;
         $board->save();
 
-        $thread = $board->posts()->where('num', $thread_num)->where('is_op', 1)->firstOrFail();
+        $thread = $board->posts()->where('num', $threadNum)->where('is_op', 1)->firstOrFail();
 
         $user = Auth::user();
 
-        $new_post = $board->posts()->create([
+        $newPost = $board->posts()->create([
             'num' => $board->last_post_num,
             'user_id' => $user->id,
             'belongs_to' => $thread->id,
@@ -77,49 +77,21 @@ class PostService
 
 
         if ($request->hasFile('filename')) {
-            $this->storeFile($request, $board_name, $thread_num, $new_post);
+            foreach ($request->file('filename') as $file) {
+                $queryFile = File::where('hash', sha1_file($file))->firstOrFail();
+                $newPost->files()->attach($queryFile);
+            }
         }
 
         // Bumping thread until it reaches post limit (default: 500)
 
         if ($thread->activeChildren()->get()->count() < env('SHELTER_BUMP_LIMIT', 500) && $thread->status == 'active') {
-            if (!$new_post->is_sage)
-                $thread->updated_at = $new_post->created_at;
+            if (!$newPost->is_sage)
+                $thread->updated_at = $newPost->created_at;
         } else {
             $thread->status = 'sinking';
         }
 
         $thread->save();
-    }
-
-    public function storeFile($request, $board_name, $thread_num, Post $post) 
-    {
-        foreach ($request->file('filename') as $file) {
-            $query_file = File::where('hash', sha1_file($file))->first();
-
-            if(!$query_file) {
-
-                $db_file_entry = $post->files()->create([
-                    'hash' => sha1_file($file),
-                    'name' => $file->getClientOriginalName(),
-                    'extension' => $file->getClientOriginalExtension(),
-                    'type' => $file->getClientMimeType(),
-                    'size' => $file->getClientSize(),
-                ]);
-
-                $thumbnail = Image::make($file)->resize(null, env('SHELTER_THUMBNAIL_SIZE_PX', 80), function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-
-
-                Storage::disk('public')->put($board_name . '/' . $thread_num .'/thumbnails/'. $file->getClientOriginalName(), 
-                    (string) $thumbnail->encode());
-                Storage::disk('public')->putFileAs($board_name . '/' . $thread_num . '/', $file, 
-                    $file->getClientOriginalName());
-
-            } else {
-                $post->files()->attach($query_file);
-            }
-        }
     }
 }
