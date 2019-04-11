@@ -32,6 +32,5 @@ $factory->state(App\Post::class, 'posts', function (Faker $faker) {
         'belongs_to' => $thread->id,
         'text' => $faker->realText(rand(30, 80)),
         'num' => $board->last_post_num,
-        'is_op' => 0,
     ];
 });

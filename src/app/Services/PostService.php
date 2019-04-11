@@ -32,8 +32,8 @@ class PostService
             'text' => $request->text,
         ]);
 
-        if ($request->hasFile('filename')) {
-            foreach ($request->file('filename') as $file) {
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
                 $queryFile = File::where('hash', sha1_file($file))->firstOrFail();
                 $newThread->files()->attach($queryFile);
             }
@@ -76,8 +76,8 @@ class PostService
         ]);
 
 
-        if ($request->hasFile('filename')) {
-            foreach ($request->file('filename') as $file) {
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
                 $queryFile = File::where('hash', sha1_file($file))->firstOrFail();
                 $newPost->files()->attach($queryFile);
             }

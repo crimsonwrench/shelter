@@ -23,7 +23,7 @@ class Post extends Resource
             'belongs_to' => $this->belongs_to,
             'title' => $this->title,
             'text' => $this->text,
-            'posted_on' => $this->updated_at,
+            'posted_on' => $this->updated_at->format('Y/m/d H:i:s'),
             'is_op' => $this->is_op,
             'is_sage' => $this->is_sage,
             'is_sticky' => $this->is_sticky,
