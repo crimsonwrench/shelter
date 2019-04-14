@@ -13,28 +13,24 @@
 
 Route::group(['namespace' => 'Api'], function () {
 
-    Route::post('/upload', 'FileController@upload');
+    Route::post('/upload', 'FileController@store');
 
-    Route::get('/boards', 'BoardController@index')->name('boards');
+    Route::get('/boards', 'BoardController@index');
 
-    Route::group(['prefix' => '/board/{boardName}'], function () {
+    Route::group(['prefix' => '/board/{board}'], function () {
 
-        Route::get('/', 'BoardController@threads')->name('threads');
+        Route::get('/', 'BoardController@show');
+        Route::post('/', 'ThreadController@store');
 
-        //Thread routes
-        Route::group(['as' => 'threads.', 'prefix' => '/thread'], function () {
-            Route::get('{num}', 'PostController@showThread')->name('show');
-            Route::post('/', 'PostController@storeThread')->name('create');
-            Route::delete('{num}', 'PostController@delete')->name('delete')
-                ->middleware('role:admin');
-        });
+        Route::group(['prefix' => 'thread'], function () {
+            
+            Route::get('{thread}', 'ThreadController@show');
+            Route::delete('{thread}', 'ThreadController@destroy')->middleware('role:admin');
 
-        //Post routes
-        Route::group(['as' => 'posts.', 'prefix' => '/post'], function () {
-            Route::get('{num}', 'PostController@showPost')->name('show');
-            Route::post('/', 'PostController@storePost')->name('create');
-            Route::delete('{num}', 'PostController@delete')->name('delete')
-                ->middleware('role:admin');
+            Route::group(['prefix' => '{thread}'], function () {
+                Route::post('/', 'PostController@store');
+                Route::delete('{post}', 'PostController@destroy')->middleware('role:admin');
+            });
         });
     });
 });

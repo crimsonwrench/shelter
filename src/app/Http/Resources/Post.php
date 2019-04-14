@@ -4,7 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 use App\Http\Resources\File as FileResource;
-use Illuminate\Support\Facades\DB;
+use App\Http\Resources\User as UserResource;
+
 use Auth;
 
 class Post extends Resource
@@ -18,17 +19,14 @@ class Post extends Resource
     public function toArray($request)
     {
         return [
-            'board_id' => $this->board_id,
-            'num' => $this->num,
-            'belongs_to' => $this->belongs_to,
-            'title' => $this->title,
+            'link_id' => $this->link_id,
+            'parent_link_id' => $this->parent_link_id,
+            'user' => new UserResource($this->whenLoaded('user')),
             'text' => $this->text,
-            'posted_on' => $this->updated_at->format('Y/m/d H:i:s'),
-            'is_op' => $this->is_op,
-            'is_sage' => $this->is_sage,
-            'is_sticky' => $this->is_sticky,
+            'rating' => $this->rating,
+            'created_at' => $this->created_at->format('Y/m/d H:i:s'),
             'files' => FileResource::collection($this->whenLoaded('files')),
-            'posts' => $this->collection($this->whenLoaded('activeChildren')),
+            'posts' => $this->collection($this->whenLoaded('replies')),
         ];
     }
 }

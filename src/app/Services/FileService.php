@@ -3,13 +3,13 @@
 namespace App\Services;
 
 use App\File;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class FileService
 {
-    public function upload(Request $request)
+    public function store(StoreFile $request)
     {
         foreach ($request->file('files') as $file) {
 

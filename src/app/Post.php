@@ -6,11 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable = ['num', 'user_id', 'is_op', 'belongs_to', 'title', 'text', 'is_sage', 'is_sticky'];
+    protected $fillable = [
+        'thread_id',
+        'link_id',
+        'user_id', 
+        'parent_link_id', 
+        'text', 
+        'rating'
+    ];
 
-    public function board()
+    public function getRouteKeyName()
     {
-        return $this->belongsTo('App\Board');
+        return 'link_id';
+    }
+
+    public function thread()
+    {
+        return $this->belongsTo('App\Thread', 'thread_link_id');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany('App\Post', 'parent_link_id')->with('replies');
     }
 
     public function user()
@@ -18,23 +35,8 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function parent()
-    {
-        return $this->belongsTo('App\Post', 'belongs_to');
-    }
-
-    public function children()
-    {
-        return $this->hasMany('App\Post', 'belongs_to');
-    }
-
-    public function activeChildren()
-    {
-        return $this->children()->where('status', '!=', 'archived');
-    }
-
     public function files()
     {
-        return $this->belongsToMany('App\File');
+        return $this->morphToMany('App\File', 'attachable');
     }
 }

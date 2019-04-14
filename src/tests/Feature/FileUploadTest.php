@@ -9,7 +9,6 @@ use Tests\TestCase;
 
 class FileUploadTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * A basic feature test example.
@@ -20,17 +19,17 @@ class FileUploadTest extends TestCase
     {
         Storage::fake('public');
 
-        $picture1 = UploadedFile::fake()->image('picture1.jpg', 20, 20);
-        $picture2 = UploadedFile::fake()->image('picture2.jpg', 35, 185);
+        $picture1 = UploadedFile::fake()->image('testpicture1.jpg', 320, 240);
+        $picture2 = UploadedFile::fake()->image('testpicture2.jpg', 65, 195);
 
 
         $response = $this->json('POST', '/api/upload', [
             'files' => [$picture1, $picture2],
         ]);
 
-        Storage::disk('public')->assertExists('picture1.jpg');
-        Storage::disk('public')->assertExists('/thumbnails/picture1.jpg');
-        Storage::disk('public')->assertExists('picture2.jpg');
-        Storage::disk('public')->assertExists('/thumbnails/picture2.jpg');
+        Storage::disk('public')->assertExists('testpicture1.jpg');
+        Storage::disk('public')->assertExists('/thumbnails/testpicture1.jpg');
+        Storage::disk('public')->assertExists('testpicture2.jpg');
+        Storage::disk('public')->assertExists('/thumbnails/testpicture2.jpg');
     }
 }

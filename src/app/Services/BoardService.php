@@ -3,23 +3,25 @@
 namespace App\Services;
 
 use App\Board;
+use App\Http\Resources\Board as BoardResource;
+use App\Http\Resources\Thread as ThreadResource;
 
 class BoardService
 {    
-    public function loadThreads(Board $board, $quantity = 3)
+    public function index()
     {
-        return $board->posts()
-            ->with(['files', 'user', 'activeChildren.files', 'activeChildren' => function ($query) {
-                $query->orderByDesc('num')
-                    ->orderByDesc('created_at');
-            }])
-            ->where(['board_id' => $board->id, 'is_op' => 1, ['status', '!=', 'archived']])
-            ->orderByDesc('is_sticky')
-            ->orderByDesc('updated_at')
-            ->get()
-            ->map(function ($threads) use ($quantity) {
-                $threads->activeChildren = $threads->activeChildren->take($quantity)->reverse();
-                return $threads;
-            });
+        return BoardResource::collection(Board::all());
+    }
+
+    public function show(Board $board)
+    {
+        $threads = $board->threads()
+            ->with(['user', 'files'])
+            ->withCount('allPosts')
+            ->where('status', '!=', 'archived')
+            ->take(10)
+            ->get();
+
+        return ThreadResource::collection($threads);
     }
 }

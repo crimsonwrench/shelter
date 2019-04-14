@@ -7,7 +7,6 @@ use Tests\TestCase;
 
 class TestBoards extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * A basic feature test example.
@@ -25,7 +24,7 @@ class TestBoards extends TestCase
             ->assertHeader('Content-Type', 'application/json')
             ->assertJsonFragment([
                 'name' => $board->name,
-                'name_short' => $board->name_short,
+                'description' => $board->description,
             ]);
     }
 }

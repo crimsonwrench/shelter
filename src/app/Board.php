@@ -6,12 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Board extends Model
 {
-    protected $fillable = ['name', 'name_short'];
+    protected $fillable = ['name', 'description'];
 
     public $timestamps = false;
 
-    public function posts()
+    public function getRouteKeyName()
     {
-        return $this->hasMany('App\Post');
+        return 'name';
+    }
+
+    public function threads()
+    {
+        return $this->hasMany('App\Thread');
     }
 }

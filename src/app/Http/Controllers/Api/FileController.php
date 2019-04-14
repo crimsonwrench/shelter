@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Services\FileService;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreFile;
 
 class FileController extends Controller
 {
@@ -16,8 +15,8 @@ class FileController extends Controller
         $this->fileService = $fileService;
     }
 
-    public function upload(Request $request)
+    public function store(StoreFile $request)
     {
-        $this->fileService->upload($request);
+        $this->fileService->store($request);
     }
 }

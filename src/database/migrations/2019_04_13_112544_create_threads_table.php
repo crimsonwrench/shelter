@@ -14,7 +14,8 @@ class CreateThreadsTable extends Migration
     public function up()
     {
         Schema::create('threads', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->string('link_id', 10);
             $table->unsignedInteger('board_id')
                 ->foreign('board_id')
                 ->references('id')

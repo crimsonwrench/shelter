@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePost extends FormRequest
+class StoreFile extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,23 +16,25 @@ class StorePost extends FormRequest
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
         return [
-            'title' => 'max:50',
-            'text' => 'max:15000',
-            'files.*' => 'mimes:jpeg,jpg,png,gif,webm|max:2048'
+            'files.*' => 'mimes:jpeg,jpg,png,gif,webm|max:4096|between:0,3',
+            
         ];
     }
 
     public function messages()
     {
         return [
-            'title.max' => 'Title length should not exceed 50 characters',
-            'text.required' => 'A message is required',
-            'text.max' => 'Message length should not exceed 15000 characters',
             'files.mimes' => 'File should be one of these types: jpeg, jpg, png, gif, webm',
-            'files.max' => 'File size should not exceed 2 MB',
+            'files.max' => 'File size should not exceed 4 MB',
+            'files.between' => 'You can upload only up to 3 files',
         ];
     }
 }

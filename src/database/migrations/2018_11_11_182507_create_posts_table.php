@@ -15,11 +15,12 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('link_id', 10);
             $table->unsignedInteger('thread_id')
                 ->foreign('thread_id')
                 ->references('id')
                 ->on('threads');
-            $table->unsignedInteger('parent_post_id')->nullable();           
+            $table->string('parent_link_id', 10)->nullable();           
             $table->unsignedInteger('user_id')
                 ->foreign('user_id')
                 ->references('id')

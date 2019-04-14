@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreThread extends FormRequest
+class StorePublication extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,8 @@ class StoreThread extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'max:50',
+            'title' => 'max:100',
             'text' => 'required|max:15000',
-            'files' => 'required',
-            'files.*' => 'mimes:jpeg,jpg,png,gif,webm|max:2048',
         ];
     }
 
@@ -35,11 +33,8 @@ class StoreThread extends FormRequest
     {
         return [
             'title.max' => 'Title length should not exceed 50 characters',
-            'text.required' => 'A message is required',
+            'text.required' => 'Message cannot be empty',
             'text.max' => 'Message length should not exceed 15000 characters',
-            'files.required' => 'A file is required',
-            'files.mimes' => 'File should be one of these types: jpeg, jpg, png, gif, webm',
-            'files.max' => 'File size should not exceed 2 MB',
         ];
     }
 }

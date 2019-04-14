@@ -12,7 +12,10 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable;
     
     protected $fillable = [
-        'name', 'email','password',
+        'name', 
+        'email',
+        'email_verified_at',
+        'password',
     ];
 
     protected $hidden = [
@@ -26,6 +29,11 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany('App\Post');
+    }
+
+    public function threads()
+    {
+        return $this->hasMany('App\Thread');
     }
 
     public function roles()

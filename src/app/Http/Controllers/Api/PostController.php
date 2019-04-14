@@ -2,59 +2,31 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Board;
-use App\Services\PostService;
+use App\Thread;
+use App\Post;
+use App\Http\Requests\StorePublication;
 use App\Services\AccessService;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePost;
-use App\Http\Requests\StoreThread;
-use App\Http\Resources\Post as PostResource;
+use App\Services\PostService;
 
 class PostController extends Controller
 {
 
     protected $postService;
     protected $accessService;
- 
+
     public function __construct(PostService $postService, AccessService $accessService)
     {
         $this->postService = $postService;
         $this->accessService = $accessService;
     }
 
-    public function storeThread(StoreThread $request, $boardName)
+    public function store(StorePublication $request, Thread $thread)
     {
-       $this->postService->storeThread($request, $boardName);
+        $this->postService->store($request, $thread);
     }
 
-    public function storePost(StorePost $request, $boardName, $threadNumber)
+    public function delete(Post $post)
     {
-        $this->postService->storePost($request, $boardName, $threadNumber);
-    }
-
-    public function showThread($board, $threadNumber)
-    {
-        $board = Board::where('name_short', $board)->firstOrFail();
-        $thread = $board->posts()
-            ->with('user', 'activeChildren.user', 'activeChildren', 'files', 'activeChildren.files')
-            ->where('num', $threadNumber)
-            ->where('status', '!=', 'archived')
-            ->where('is_op', 1)
-            ->firstOrFail();
-
-        return new PostResource($thread);
-
-    }
-    public function showPost($board, $postNumber)
-    {
-        $board = Board::where('name_short', $board)->firstOrFail();
-        $post = $board->posts()
-            ->with('user', 'files')
-            ->where('num', $postNumber)
-            ->where('status', '!=', 'archived')
-            ->firstOrFail();
-
-        return new PostResource($post);
-
+        $this->postService->delete($post);
     }
 }

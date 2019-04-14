@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Board;
-use App\Http\Controllers\Controller;
 use App\Services\BoardService;
-use App\Http\Resources\Board as BoardResource;
-use App\Http\Resources\Post as PostResource;
-
+use App\Board;
 
 class BoardController extends Controller
 {
@@ -20,21 +16,11 @@ class BoardController extends Controller
 
     public function index()
     {
-        return BoardResource::collection(Board::all());
+        return $this->boardService->index();
     }
 
-    public function threads($name)
+    public function show(Board $board)
     {
-        $board = Board::where('name_short', $name)->firstOrFail();
-        $threads = $this->boardService->loadThreads($board);
-
-        return PostResource::collection($threads);
-    }
-
-    public function show($name)
-    {
-        $board = Board::where('name_short', $name)->firstOrFail();
-
-        return new BoardResource($board);
+        return $this->boardService->show($board);
     }
 }
