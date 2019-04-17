@@ -9,7 +9,7 @@ services:
     ports:
       - '8080:80'
     volumes:
-      - ./frontend/public:/var/www/shelter/public
+      - ./frontend/dist:/var/www/shelter/public
       - ./backend/src/public/res:/var/www/shelter/public/res
     networks:
       shelter:
