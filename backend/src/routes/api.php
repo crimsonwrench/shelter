@@ -13,6 +13,8 @@
 
 Route::group(['namespace' => 'Api'], function () {
 
+    Route::post('/login', 'AuthController@login');
+
     Route::post('/upload', 'FileController@store');
 
     Route::get('/boards', 'BoardController@index');
@@ -23,7 +25,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('/', 'ThreadController@store');
 
         Route::group(['prefix' => 'thread'], function () {
-            
+
             Route::get('{thread}', 'ThreadController@show');
             Route::delete('{thread}', 'ThreadController@destroy');
 
