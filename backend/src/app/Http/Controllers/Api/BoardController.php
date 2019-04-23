@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Services\BoardService;
 use App\Board;
+use App\Services\BoardService;
+use Illuminate\Http\Request;
 
 class BoardController extends Controller
 {
@@ -22,5 +23,10 @@ class BoardController extends Controller
     public function show(Board $board)
     {
         return $this->boardService->show($board);
+    }
+
+    public function store(Request $request)
+    {
+        return $this->boardService->store($request);
     }
 }

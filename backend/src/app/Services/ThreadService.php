@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Auth;
 use App\File;
+use App\Board;
 use App\Thread;
 use App\Http\Resources\Thread as ThreadResource;
 use App\Http\Requests\StorePublication;
@@ -11,7 +12,7 @@ use Illuminate\Support\Str;
 
 class ThreadService 
 {
-    public function show($board, $threadLink)
+    public function show(Board $board, $threadLink)
     {
         $thread = $board->threads()
             ->with(
@@ -30,7 +31,7 @@ class ThreadService
         return new ThreadResource($thread);
     }
     
-    public function store(StorePublication $request, $board)
+    public function store(StorePublication $request, Board $board)
     {
         $user = Auth::user();
 
