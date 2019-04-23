@@ -17,6 +17,7 @@ Route::group(['namespace' => 'Api'], function () {
 
         Route::post('/upload', 'FileController@store');
         Route::post('/logout', 'AuthController@logout');
+        Route::post('/board', 'BoardController@store')->middleware('permission:CreateBoards');
 
         Route::group(['prefix' => '/board/{board}'], function () {
             Route::group(['middleware' => 'permission:CreatePublications'], function () {
@@ -25,8 +26,8 @@ Route::group(['namespace' => 'Api'], function () {
             });
 
             Route::group(['middleware' => 'permission:DeletePublications', 'prefix' => '/thread/{thread}'], function () {
-                Route::delete('/', 'ThreadController@destroy');
-                Route::delete('/{post}', 'ThreadController@destroy');
+                Route::delete('/', 'ThreadController@delete');
+                Route::delete('/{post}', 'ThreadController@delete');
             });
         });
 
@@ -39,5 +40,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => '/board/{board}'], function () {
         Route::get('/', 'BoardController@show');
         Route::get('/thread/{thread}', 'ThreadController@show');
+    });
+
+    Route::group(['prefix' => '/user/{user}'], function () {
+        Route::get('/', 'UserController@show');
     });
 });

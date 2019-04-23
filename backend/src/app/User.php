@@ -19,6 +19,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
     protected $hidden = [
         'password','remember_token',
     ];

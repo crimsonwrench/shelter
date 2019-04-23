@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,12 +49,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof ModelNotFoundException) {
-            abort(404);
-        }
-
         if ($exception instanceof AuthenticationException) {
-            abort(401);
+            return response()->json('Unauthenticated', 401);
+        }
+        if ($exception instanceof UnauthorizedException) {
+            return response()->json('I\'m sorry, Dave. I\'m afraid I can\'t do that.', 403);
+        }
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json('Not found', 404);
         }
 
         return parent::render($request, $exception);

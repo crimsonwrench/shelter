@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -32,7 +32,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 'CreatePublications',
             ]);
 
-        $role = Role::create(['name' => 'moderator'])
+        $role = Role::create(['name' => 'global-moderator'])
             ->givePermissionTo([
                 'CreatePublications',
                 'EditPublications',
@@ -40,9 +40,10 @@ class RolesAndPermissionsSeeder extends Seeder
                 'StickThreads',
                 'ChangeThreadStatus',
                 'BanUsers',
+                'CreateBoards',
             ]);
 
-        $role = Role::create(['name' => 'super-admin']);
-        $role->givePermissionTo(Permission::all());
+        $role = Role::create(['name' => 'super-admin'])
+            ->givePermissionTo(Permission::all());
     }
 }
