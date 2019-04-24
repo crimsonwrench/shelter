@@ -13,8 +13,8 @@ $factory->define(App\Thread::class, function (Faker $faker) {
         'link_id' => Str::random(10),
         'board_id' => $board->id,
         'user_id' => $user->id,
-        'title' => $faker->realText(rand(10, 100)),
-        'text' => $faker->realText(rand(20, 100)),
+        'title' => $faker->realText($faker->numberBetween(10, 100)),
+        'text' => $faker->realText($faker->numberBetween(20, 100)),
 
     ];
 });

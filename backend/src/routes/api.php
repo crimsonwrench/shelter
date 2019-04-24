@@ -15,7 +15,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
 
-        Route::post('/upload', 'FileController@store');
+        Route::post('/upload', 'FileController@store')->middleware('permission:CreatePublications');
         Route::post('/logout', 'AuthController@logout');
         Route::post('/board', 'BoardController@store')->middleware('permission:CreateBoards');
 

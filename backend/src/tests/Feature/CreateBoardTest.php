@@ -2,29 +2,45 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class TestBoards extends TestCase
+class CreateBoardTest extends TestCase
 {
 
     /**
-     * A basic feature test example.
+     * A basic board storing test.
      *
      * @return void
      */
-    public function testBoardExistence()
+    public function testCreateBoard()
     {
-        $board = factory('App\Board')->create();
 
-        $response = $this->get('/api/boards');
+        // Trying unauthenticated
+        $response = $this->post('/api/board', [
+            'name' => 'SomeTestStuff',
+            'description' => 'Test stuff goes here',
+        ])->assertStatus(401);
 
-        $response
-            ->assertOk()
-            ->assertHeader('Content-Type', 'application/json')
-            ->assertJsonFragment([
-                'name' => $board->name,
-                'description' => $board->description,
-            ]);
+        // Trying with 'user' role
+        $user = factory('App\User')
+            ->create()
+            ->assignRole('user');
+
+        Passport::actingAs($user);
+
+        $response = $this->post('/api/board', [
+            'name' => 'SomeTestStuff',
+            'description' => 'Test stuff goes here',
+        ])->assertStatus(403);
+
+        // Trying with 'global-moderator' role
+        $user->assignRole('global-moderator');
+
+        $response = $this->post('/api/board', [
+            'name' => 'SomeTestStuff',
+            'description' => 'Test stuff goes here',
+        ])->assertSuccessful();
+
     }
 }
