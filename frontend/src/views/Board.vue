@@ -1,37 +1,37 @@
 <template>
   <div class="main-container">
-    <div class="boards-container">
-      <Boards />
+    <div class="board-container">
+      <Threads />
     </div>
     <div class="info">
-      <h3>Info</h3>
+      <h3>Mods</h3>
       <div></div>
-      <div></div>
+      <h3>Stats</h3>
       <div></div>
     </div>
   </div>
 </template>
 
 <script>
-import Boards from '@/components/Boards.vue';
+import Threads from '@/components/Threads.vue';
 export default {
-  name: 'home',
+  name: 'board',
   components: {
-    Boards
+    Threads
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .main-container {
   display: grid;
   grid-template-columns: 2.5fr 1fr;
-  grid-template-areas: "boards info" "boards .";
+  grid-template-rows: auto;
+  grid-template-areas: "board info" "board .";
   grid-column-gap: 40px;
-  justify-items: stretch;
-  align-items: stretch;
 }
 
-.boards-container { padding: 10px 10px; border: 2px dashed #ccc; grid-area: boards; }
+.board-container { padding: 10px 10px; border: 2px dashed #ccc; grid-area: board; }
 
 .info {
   padding: 10px;

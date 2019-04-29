@@ -38,7 +38,8 @@
       "@vue/standard"
     ],
     "rules": {
-      "semi": [2, "always"]
+      "semi": [2, "always"],
+      "space-before-function-paren": [0, "never"]
     },
     "parserOptions": {
       "parser": "babel-eslint"
