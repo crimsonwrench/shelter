@@ -1,11 +1,15 @@
 <template>
     <div>
       <h3>{{ this.$route.params.boardName }}</h3>
-      <div class="threads">
-        <div class="thread" v-for="thread in allThreads" :key="thread.id">
-          {{ thread.title }}
-        </div>
-      </div>
+      <b-card
+        v-for="thread in allThreads"
+        :key="thread.id"
+        :header="thread.title"
+        :footer="`created at ${thread.created_at}`"
+        class="mb-3"
+      >
+          <b-card-text>{{ thread.text}}</b-card-text>
+      </b-card>
     </div>
 </template>
 
@@ -24,17 +28,5 @@ export default {
 </script>
 
 <style scoped>
-.threads {
-  display: grid;
-  grid-gap: 1rem;
-}
 
-.thread {
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 2px;
-  text-align: center;
-  position: relative;
-  cursor: pointer;
-}
 </style>

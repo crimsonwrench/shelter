@@ -20,7 +20,7 @@ class BoardService
             ->with(['user', 'files'])
             ->withCount('allPosts')
             ->where('status', '!=', 'archived')
-            ->take(10)
+            ->take(env('SHELTER_THREADS_ON_PAGE'))
             ->get();
 
         return ThreadResource::collection($threads);

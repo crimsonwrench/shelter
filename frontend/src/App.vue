@@ -1,33 +1,25 @@
 <template>
   <div id="app">
-    <div class="container">
-      <div class="header"></div>
-      <div class="main">
-        <router-view/>
-      </div>
-      <div class="footer"></div>
-    </div>
+    <Navbar />
+    <b-container>
+      <b-row>
+        <b-col md="8" offset-md="2" class="mt-3">
+          <router-view />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-
+import Navbar from './components/Navbar.vue';
 export default {
+  components: {
+    Navbar
+  }
 };
 </script>
 
 <style lang="scss">
-.container {
-  display: grid;
-  grid-template-rows: 100px 2.7fr 100px;
-  grid-template-areas: "header header header" ". main ." "footer footer footer";
-  align-items: stretch;
-}
-
-.header { grid-area: header; }
-
-.main { grid-area: main; }
-
-.footer { grid-area: footer; }
 
 </style>

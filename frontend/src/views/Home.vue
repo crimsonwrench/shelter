@@ -1,15 +1,13 @@
 <template>
-  <div class="main-container">
-    <div class="boards-container">
-      <Boards />
-    </div>
-    <div class="info">
-      <h3>Info</h3>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-  </div>
+  <b-container>
+    <b-row>
+      <b-col md="8">
+        <Boards />
+      </b-col>
+      <b-col md="4">
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -21,27 +19,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
-.main-container {
-  display: grid;
-  grid-template-columns: 2.5fr 1fr;
-  grid-template-areas: "boards info" "boards .";
-  grid-column-gap: 40px;
-  justify-items: stretch;
-  align-items: stretch;
-}
 
-.boards-container { padding: 10px 10px; border: 2px dashed #ccc; grid-area: boards; }
-
-.info {
-  padding: 10px;
-  border: 2px dashed #ccc;
-  grid-area: info;
-  div {
-    border: 1px solid #ccc;
-    padding: 5rem;
-    border-radius: 2px;
-    margin: 2rem 0;
-  }
-}
 </style>
