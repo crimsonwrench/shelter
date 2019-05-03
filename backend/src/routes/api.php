@@ -39,6 +39,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::group(['prefix' => '/board/{board}'], function () {
         Route::get('/', 'BoardController@show');
+        Route::get('/threads', 'BoardController@showThreads');
         Route::get('/thread/{thread}', 'ThreadController@show');
     });
 

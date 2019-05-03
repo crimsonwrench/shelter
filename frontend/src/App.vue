@@ -3,7 +3,7 @@
     <Navbar />
     <b-container>
       <b-row>
-        <b-col md="8" offset-md="2" class="mt-3">
+        <b-col md="12" class="mt-3">
           <router-view />
         </b-col>
       </b-row>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue';
+import Navbar from '@/components/layout/Navbar.vue';
 export default {
   components: {
     Navbar

@@ -2,8 +2,9 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import axios from 'axios';
 
-import Home from './views/Home.vue';
-import Board from './views/Board.vue';
+import Home from '@/views/Home.vue';
+import Board from '@/views/Board.vue';
+import Thread from '@/views/Thread.vue';
 
 Vue.use(Router);
 
@@ -21,9 +22,14 @@ export default new Router({
       component: Home
     },
     {
-      path: '/b/:boardName',
+      path: '/b/:board',
       name: 'board',
       component: Board
+    },
+    {
+      path: '/b/:board/:thread',
+      name: 'thread',
+      component: Thread
     }
   ]
 });

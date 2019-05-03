@@ -1,28 +1,23 @@
 <template>
-    <div>
-      <h3>{{ this.$route.params.boardName }}</h3>
-      <b-card
-        v-for="thread in allThreads"
-        :key="thread.id"
-        :header="thread.title"
-        :footer="`created at ${thread.created_at}`"
-        class="mb-3"
-      >
-          <b-card-text>{{ thread.text}}</b-card-text>
-      </b-card>
-    </div>
+  <div>
+    <ThreadCard v-for="thread in allThreads" :key="thread.id" :thread="thread"/>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import ThreadCard from '@/components/layout/ThreadCard.vue';
 export default {
   name: 'Threads',
+  components: {
+    ThreadCard
+  },
   methods: {
     ...mapActions(['fetchThreads'])
   },
   computed: mapGetters(['allThreads']),
   created() {
-    this.fetchThreads(this.$route.params.boardName);
+    this.fetchThreads(this.$route.params.board);
   }
 };
 </script>

@@ -1,22 +1,18 @@
 <template>
   <div>
-    <b-card
-      v-for="board in allBoards"
-      :key="board.id"
-      class="mb-3"
-    >
-      <b-link :to="{ name: 'board', params: { boardName: board.name} }">
-        <b-card-text>{{ board.description }}</b-card-text>
-      </b-link>
-    </b-card>
+      <BoardCard v-for="board in allBoards" :key="board.id" :board="board"/>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import BoardCard from '@/components/layout/BoardCard.vue';
 
 export default {
   name: 'Boards',
+  components: {
+    BoardCard
+  },
   methods: {
     ...mapActions(['fetchBoards'])
   },
