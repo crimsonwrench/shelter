@@ -19,10 +19,15 @@ class BoardController extends Controller
     {
         return $this->boardService->index();
     }
-
+    
     public function show(Board $board)
     {
         return $this->boardService->show($board);
+    }
+
+    public function showThreads(Board $board)
+    {
+        return $this->boardService->showThreads($board);
     }
 
     public function store(Request $request)

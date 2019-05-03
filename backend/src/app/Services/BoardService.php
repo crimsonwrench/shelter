@@ -16,6 +16,11 @@ class BoardService
 
     public function show(Board $board)
     {
+        return new BoardResource($board);
+    }
+
+    public function showThreads(Board $board)
+    {
         $threads = $board->threads()
             ->with(['user', 'files'])
             ->withCount('allPosts')

@@ -7,5 +7,11 @@ export default {
     );
 
     commit('setBoards', response.data.data);
+  },
+  async fetchCurrentBoard({ commit }, board) {
+    const response = await axios.get(
+      `board/${board}`
+    );
+    commit('setCurrentBoard', response.data.data);
   }
 };

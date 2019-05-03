@@ -1,21 +1,21 @@
 <template>
   <b-container>
     <b-row>
-      <b-col md="8">
-        <Boards />
+      <b-col md="10">
+        <Posts />
       </b-col>
-      <b-col md="4">
+      <b-col md="2">
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import Boards from '@/components/Boards.vue';
+import Posts from '@/components/Posts.vue';
 export default {
-  name: 'home',
+  name: 'thread',
   components: {
-    Boards
+    Posts
   }
 };
 </script>

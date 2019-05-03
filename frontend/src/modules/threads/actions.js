@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 export default {
-  async fetchThreads({ commit }, boardName) {
+  async fetchThreads({ commit }, board) {
     const response = await axios.get(
-      `board/${boardName}`
+      `board/${board}/threads`
     );
 
     commit('setThreads', response.data.data);
