@@ -1,20 +1,23 @@
+@import '@/styles/variables.scss';
+
 body, html, #app {
-    background-color: #dddddd;
+    font-size: 16px;
+    background-color: $background-color;
 }
 %item {
     word-wrap: break-word;
     padding: 10px;
-    background-color: #f8f9fa;
+    background-color: $primary-color;
     border-radius: 3px;
 }
 .main-item {
     @extend %item;
-    border: 1px solid #ccc;
+    border: 1px solid $border-color;
     margin-bottom: 10px;
 
     &.select:hover {
         cursor: pointer;
-        border: 1px solid #1e9fdb;
+        border: 1px solid $secondary-color;
     }
 }
 
@@ -26,16 +29,38 @@ body, html, #app {
 .side-item-header {
     text-transform: uppercase;
     font-weight: bold;
-    color: #fff;
-    padding: 5px 10px;
+    color: $text-secondary-color;
+    padding: 8px 10px;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     margin-top: -10px;
     margin-left: -10px;
     margin-right: -10px;
-    background-color: #1e9fdb;
+    background-color: $secondary-color;
 }
 
 .side-item-body {
-    padding-top: 5px;
+    padding-top: 10px;
+    p, h5 { 
+        &.small {
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        margin: 0; 
+    }
+
+    ol {
+        list-style-position: inside;
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    .stats {
+        border-right: 1px solid $border-color;
+    }
+
+    button {
+        width: 100%;
+    }
 }

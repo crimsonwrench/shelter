@@ -1,17 +1,22 @@
 import axios from 'axios';
 
 export default {
-  async fetchBoards({ commit }) {
-    const response = await axios.get(
-      'boards'
-    );
-
-    commit('setBoards', response.data.data);
+  fetchBoards({ commit }) {
+    axios.get('boards')
+      .then(response => {
+        commit('setBoards', response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
-  async fetchCurrentBoard({ commit }, board) {
-    const response = await axios.get(
-      `board/${board}`
-    );
-    commit('setCurrentBoard', response.data.data);
+  fetchCurrentBoard({ commit }, board) {
+    axios.get(`board/${board}`)
+      .then(response => {
+        commit('setCurrentBoard', response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };

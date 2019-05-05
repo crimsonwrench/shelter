@@ -23,7 +23,14 @@
     </b-input-group>
 
     <b-navbar-nav class="d-none d-md-flex ml-auto">
-      <b-button size="sm" variant="outline-primary" class="mr-3 navbar-button">Log In</b-button>
+      <b-button
+        size="sm"
+        variant="outline-primary"
+        class="mr-3 navbar-button"
+        @click="$modal.show('login-modal')"
+      >
+        Log In
+      </b-button>
       <b-button size="sm" variant="primary" class="mr-3 navbar-button">Sign Up</b-button>
     </b-navbar-nav>
 
@@ -31,7 +38,7 @@
       <template v-slot:button-content>
         <v-icon name="tools"/>
       </template>
-      <b-dropdown-item>Log In</b-dropdown-item>
+      <b-dropdown-item @click="$modal.show('login-modal')">Log In</b-dropdown-item>
       <b-dropdown-item>Sign Up</b-dropdown-item>
     </b-dropdown>
 
