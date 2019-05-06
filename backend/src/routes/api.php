@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +15,10 @@
 Route::group(['namespace' => 'Api'], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::get('/user', function (Request $request) {
+            return $request->user();
+        });
 
         Route::post('/upload', 'FileController@store')->middleware('permission:CreatePublications');
         Route::post('/logout', 'AuthController@logout');

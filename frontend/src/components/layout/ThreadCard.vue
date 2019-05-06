@@ -4,13 +4,16 @@
     tag="div"
     class="main-item select"
   >
-    <div class="thread-header">
-      <p><b>{{ thread.user.name }}</b> on {{ thread.created_at }}</p>
-      <p><b>{{ thread.title }}</b></p>
-    </div>
-    <div class="thread-body">
-      {{ thread.text }}
-    </div>
+    <b-row>
+      <b-col class="d-flex flex-column">
+        <div class="main-item-header">
+          {{ thread.user.name }}
+        </div>
+        <div class="main-item-body">
+          {{ thread.title}}
+        </div>
+      </b-col>
+    </b-row>
   </router-link>
 </template>
 
@@ -21,5 +24,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
+
 </style>

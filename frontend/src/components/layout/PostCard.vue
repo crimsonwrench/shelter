@@ -1,9 +1,9 @@
 <template>
   <div class="main-item">
-    <div class="main-header">
+    <div class="main-item-header">
       <h4>{{ post.title }}</h4>
     </div>
-    <div class="main-body">
+    <div class="main-item-body">
       {{ post.text }}
     </div>
   </div>

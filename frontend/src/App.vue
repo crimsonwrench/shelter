@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <login-modal />
     <Navbar />
     <b-container>
       <b-row>
@@ -13,9 +14,11 @@
 
 <script>
 import Navbar from '@/components/layout/Navbar.vue';
+import LoginModal from '@/components/modals/LoginModal.vue';
 export default {
   components: {
-    Navbar
+    Navbar,
+    LoginModal
   }
 };
 </script>
