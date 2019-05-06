@@ -28,18 +28,21 @@
         variant="outline-primary"
         class="mr-3 navbar-button"
         @click="$modal.show('login-modal')"
+        v-if="!loggedIn"
       >
         Log In
       </b-button>
-      <b-button size="sm" variant="primary" class="mr-3 navbar-button">Sign Up</b-button>
+      <b-button size="sm" variant="primary" class="mr-3 navbar-button" v-if="!loggedIn">Sign Up</b-button>
     </b-navbar-nav>
 
     <b-dropdown size="sm" variant="light" right>
       <template v-slot:button-content>
-        <v-icon name="tools"/>
+        <span v-if="loggedIn" class="mr-3">{{ user.name }}</span>
+        <v-icon v-if="!loggedIn" name="cog"/>
       </template>
-      <b-dropdown-item @click="$modal.show('login-modal')">Log In</b-dropdown-item>
-      <b-dropdown-item>Sign Up</b-dropdown-item>
+      <b-dropdown-item @click="$modal.show('login-modal')" v-if="!loggedIn">Log In</b-dropdown-item>
+      <b-dropdown-item v-if="!loggedIn">Sign Up</b-dropdown-item>
+      <b-dropdown-item @click="logOut" v-if="loggedIn">Log Out</b-dropdown-item>
     </b-dropdown>
 
   </b-navbar>
@@ -48,7 +51,7 @@
 <script>
 import Icon from 'vue-awesome/components/Icon';
 
-import 'vue-awesome/icons/tools';
+import 'vue-awesome/icons/cog';
 import 'vue-awesome/icons/burn';
 import 'vue-awesome/icons/star';
 import 'vue-awesome/icons/brands/vuejs';
@@ -57,6 +60,23 @@ export default {
   name: 'Navbar',
   components: {
     'v-icon': Icon
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('destroyToken')
+        .then(response => {
+          this.$store.dispatch('destroyUser');
+          this.$router.push({ name: 'home' });
+        });
+    }
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.getters.loggedIn;
+    },
+    user() {
+      return this.$store.getters.user;
+    }
   }
 };
 </script>

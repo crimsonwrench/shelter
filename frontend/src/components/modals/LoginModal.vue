@@ -1,5 +1,5 @@
 <template>
-  <modal name="login-modal">
+  <modal name="login-modal" adaptive>
       <div class="modal-box">
         <div class="modal-header">
           Login
@@ -53,13 +53,14 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['retrieveToken']),
+    ...mapActions(['retrieveToken', 'retrieveUser']),
     login() {
       this.retrieveToken({
         username: this.form.username,
         password: this.form.password
       })
         .then(response => {
+          this.retrieveUser();
           this.$modal.hide('login-modal');
           this.$router.push({ name: 'home' });
         });

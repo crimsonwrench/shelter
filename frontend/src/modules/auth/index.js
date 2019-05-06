@@ -3,7 +3,8 @@ import getters from './getters';
 import mutations from './mutations';
 
 const state = {
-  token: localStorage.getItem('access_token') || null
+  token: localStorage.getItem('access_token') || null,
+  user: JSON.parse(localStorage.getItem('user'))
 };
 
 export default {
