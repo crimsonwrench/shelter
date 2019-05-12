@@ -6,6 +6,10 @@ import Home from '@/views/Home.vue';
 import Board from '@/views/Board.vue';
 import Thread from '@/views/Thread.vue';
 
+import Login from '@/views/auth/Login.vue';
+import Logout from '@/views/auth/Logout.vue';
+import Register from '@/views/auth/Register.vue';
+
 Vue.use(Router);
 
 // Initialize axios
@@ -30,6 +34,30 @@ export default new Router({
       path: '/b/:board/:thread',
       name: 'thread',
       component: Thread
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+      meta: {
+        requiresUnauth: true
+      }
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: Logout,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register,
+      meta: {
+        requiresUnauth: true
+      }
     }
   ]
 });

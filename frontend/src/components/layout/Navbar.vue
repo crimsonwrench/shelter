@@ -27,21 +27,29 @@
         size="sm"
         variant="outline-primary"
         class="mr-3 navbar-button"
-        @click="$modal.show('login-modal')"
+        :to="{ name: 'login' }"
         v-if="!loggedIn"
       >
         Log In
       </b-button>
-      <b-button size="sm" variant="primary" class="mr-3 navbar-button" v-if="!loggedIn">Sign Up</b-button>
+      <b-button
+        size="sm"
+        variant="primary"
+        class="mr-3 navbar-button"
+        :to="{ name: 'register' }"
+        v-if="!loggedIn"
+      >
+        Sign Up
+      </b-button>
     </b-navbar-nav>
 
     <b-dropdown size="sm" variant="light" right>
       <template v-slot:button-content>
-        <span v-if="loggedIn" class="mr-3">{{ user.name }}</span>
+        <span v-if="user" class="mr-3">{{ user.name }}</span>
         <v-icon v-if="!loggedIn" name="cog"/>
       </template>
-      <b-dropdown-item @click="$modal.show('login-modal')" v-if="!loggedIn">Log In</b-dropdown-item>
-      <b-dropdown-item v-if="!loggedIn">Sign Up</b-dropdown-item>
+      <b-dropdown-item :to="{ name: 'login' }" v-if="!loggedIn">Log In</b-dropdown-item>
+      <b-dropdown-item :to="{ name: 'register' }" v-if="!loggedIn">Sign Up</b-dropdown-item>
       <b-dropdown-item @click="logOut" v-if="loggedIn">Log Out</b-dropdown-item>
     </b-dropdown>
 
@@ -75,7 +83,10 @@ export default {
       return this.$store.getters.loggedIn;
     },
     user() {
-      return this.$store.getters.user;
+      if (this.loggedIn) {
+        return this.$store.getters.user;
+      }
+      return null;
     }
   }
 };

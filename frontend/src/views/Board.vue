@@ -23,8 +23,8 @@
               </b-col>
             </b-row>
               <p class="my-2">{{ currentBoard.description }}</p>
-              <b-button size="sm" variant="primary" class="mb-2">JOIN</b-button>
-              <b-button size="sm" variant="primary">CREATE POST</b-button>
+              <b-button style="width:100%;" size="sm" variant="primary" class="mb-2">JOIN</b-button>
+              <b-button style="width:100%;" :to="{ name: 'CreatePost' }" size="sm" variant="primary">CREATE POST</b-button>
           </template>
         </SideCard>
 

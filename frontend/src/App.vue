@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <login-modal />
     <Navbar />
-    <b-container>
+    <b-container class="mt-3">
       <b-row>
         <b-col md="12" class="mt-3">
           <router-view />
@@ -14,11 +13,9 @@
 
 <script>
 import Navbar from '@/components/layout/Navbar.vue';
-import LoginModal from '@/components/modals/LoginModal.vue';
 export default {
   components: {
-    Navbar,
-    LoginModal
+    Navbar
   }
 };
 </script>

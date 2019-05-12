@@ -49,5 +49,19 @@ export default {
   destroyUser({ commit, getters }) {
     localStorage.removeItem('user');
     commit('destroyUser');
+  },
+  registerUser({ commit }, credentials) {
+    axios.post('/register', {
+      name: credentials.username,
+      email: credentials.email,
+      password: credentials.password,
+      password_confirmation: credentials.password_confirmation
+    })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };

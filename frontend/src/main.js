@@ -19,6 +19,28 @@ Vue.use(VModal);
 
 Vue.config.productionTip = false;
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.loggedIn) {
+      next({
+        name: 'login'
+      });
+    } else {
+      next();
+    }
+  } else if (to.matched.some(record => record.meta.requiresUnauth)) {
+    if (store.getters.loggedIn) {
+      next({
+        name: 'home'
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
 new Vue({
   router,
   store,

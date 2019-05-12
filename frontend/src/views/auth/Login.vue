@@ -1,6 +1,7 @@
 <template>
-  <modal name="login-modal" adaptive>
-      <div class="modal-box">
+  <b-container>
+    <b-row align-h="center">
+      <b-col cols=12 sm=12 md=6 class="main-item">
         <div class="modal-header">
           Login
         </div>
@@ -16,7 +17,6 @@
                 v-model="form.username"
                 type="text"
                 required
-                placeholder="Enter Username"
               ></b-form-input>
             </b-form-group>
 
@@ -33,17 +33,18 @@
               ></b-form-input>
             </b-form-group>
 
-            <b-button variant="outline-primary" type="submit">Submit</b-button>
+            <b-button block variant="success" type="submit" class="mt-4">Login</b-button>
           </b-form>
         </div>
-      </div>
-  </modal>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 export default {
-  name: 'LoginModal',
+  name: 'Login',
   data() {
     return {
       form: {
@@ -61,8 +62,7 @@ export default {
       })
         .then(response => {
           this.retrieveUser();
-          this.$modal.hide('login-modal');
-          this.$router.push({ name: 'home' });
+          this.$router.go(-1);
         });
     }
   }
