@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class ThreadService 
 {
-    public function show(Board $board, $threadLink)
+    public function show(Board $board, int $threadLink)
     {
         $thread = $board->threads()
             ->with(

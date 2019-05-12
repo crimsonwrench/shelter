@@ -17,7 +17,7 @@ class ThreadController extends Controller
         $this->threadService = $threadService;
     }
 
-    public function show(Board $board, $threadLink)
+    public function show(Board $board, int $threadLink)
     {
         return $this->threadService->show($board, $threadLink);
     }

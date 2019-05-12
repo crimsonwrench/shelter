@@ -48,6 +48,8 @@ Route::group(['namespace' => 'Api'], function () {
         Route::get('/thread/{thread}', 'ThreadController@show');
     });
 
+    Route::get('user_exists', 'UserController@userExists');
+
     Route::group(['prefix' => '/user/{user}'], function () {
         Route::get('/', 'UserController@show');
     });

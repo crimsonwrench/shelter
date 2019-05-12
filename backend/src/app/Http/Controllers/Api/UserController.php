@@ -19,4 +19,9 @@ class UserController extends Controller
     {
         return $this->userService->show($user);
     }
+
+    public function userExists(Request $request)
+    {
+        return $this->userService->userExists($request);
+    }
 }
